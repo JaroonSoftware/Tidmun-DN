@@ -1,0 +1,43 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.pane {
+  display: inline-block;
+  overflow-y: scroll;
+  max-height: 650px;
+}
+
+.tableFixHead {
+  overflow-y: auto;
+  height: 20;
+}
+
+.tableFixHead thead th {
+  position: sticky;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  padding: 8px 16px;
+  border: 1px solid #0f0e0e;
+}
+
+th {
+  background: #e4b355;
+}
+
+body,
+html {
+  height: 100%;
+  color: #0f0e0e;
+  background-color: #ccc;
+}

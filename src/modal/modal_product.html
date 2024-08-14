@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>TIDMUN</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../node_modules/@fortawesome/fontawesome-free/css/all.css">
+    <!-- <link rel="icon" href="../assets/icons/win/icon.ico"> -->
+    <!-- Insert this line above script imports  -->
+    <script>
+        if (typeof module === 'object') { window.module = module; module = undefined; }
+    </script>
+    <!-- normal script imports etc  -->
+    <script type="text/javascript" src="../../node_modules/jquery/dist/jquery.min.js"></script>
+    <!-- Insert this line after script imports -->
+    <script>if (window.module) module = window.module;</script>
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .pane {
+            display: inline-block;
+            overflow-y: scroll;
+            max-height: 650px;
+        }
+
+        .tableFixHead {
+            overflow-y: auto;
+            /* make the table scrollable if height is more than 200 px  */
+            height: 700px;
+            /* gives an initial height of 200px to the table */
+        }
+
+        .tableFixHead thead th {
+            position: sticky;
+            /* make the table heads sticky */
+            top: 0px;
+            /* table head will be placed from the top of the table and sticks to it */
+        }
+
+        table {
+            border-collapse: collapse;
+            /* make the table borders collapse to each other */
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 8px 16px;
+            border: 1px solid #0f0e0e;
+        }
+
+        th {
+            background: #e4b355;
+        }
+
+        body,
+        html {
+            height: 100%;
+            color: #0f0e0e;
+            background-color: #ccc;
+            overflow-x: hidden;
+            /* background-image: url(./assets/icons/BG-login.png);
+            
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed; */
+
+
+        }
+    </style>
+</head>
+
+<body>
+    <br>
+    <div class="container-fluid">
+        <div class="row ">
+            <h2>เลือกใบรับสินค้า</h2>
+            <div>
+                <div class="row" style="padding-bottom: 3%;">
+                    <a>ค้นหา</a>
+                    <div class="col-4"><input class="form-control" placeholder="เลขที่ GR" id=""></input> </div>
+                    <div class="col-4"><input class="form-control" placeholder="ชื่อผู้ขาย" id=""></input></div>
+                    <div class="col-4"><input class="form-control" placeholder="ที่อยู่" id=""></input></div>
+                </div>
+                <div class="tableFixHead">
+                    <table id="getgr">
+                        <thead>
+                            <tr>
+                                <th>เลขที่ใบรับสินค้า</th>
+                                <th>ชื่อผู้ขาย</th>
+                                <th>ที่อยู่</th>
+                                <th>เลือก</th>
+                            </tr>
+                        </thead>
+                        <tbody style="background-color: #ffffff;">
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <br>
+
+    <!-- <h3 id="txtresult" style="margin-left: 15px;color: #fb2a2a;padding: 0;font-weight: bold;">กด F10 เพื่อบันทึกผล</h3> -->
+    <!-- <div class="row">
+        <div class="col">
+            <button type="button"
+                style="background-color: #e4b355;border-color: #0f0e0e;color: #000;align-items: center;" id="btnSubmit"
+                class="btn btn-primary btn-lg"> ตกลง </button>
+        </div>
+    </div> -->
+</body>
+
+</html>
+<script>
+
+    function selectGR(grcode) {
+        // alert (grcode);
+        const ipc = window.require("electron").ipcRenderer;
+
+        ipc.send('notes', grcode)
+   
+
+        window.close();
+    }
+
+    $.post("https://tidmunzbuffet.com/api_app/gr/get_gr.php", function (r) {
+        let result = JSON.parse(r)
+
+        for (let i in result) {
+            tb = '';
+            tb += '<tr id="' + (i + 1) + '"><td>' + result[i].grcode + '</td><td>' + result[i].created_name + '</td><td>'
+                + result[i].district + ' ' + result[i].subdistrict + ' ' + result[i].province + '</td><td>' + '<button class="btn btn-primary btn-lg" onclick="selectGR(\'' + result[i].grcode + '\')" >เลือก</button>' + '</td>'; tb += '</tr>'; 
+                $(tb).appendTo("#getgr");
+        }
+
+    }).fail(function (error) {
+
+        $('#txtresult').text('อินเตอร์เน็ตมีปัญหา เชื่อมต่อไม่ได้')
+        document.getElementById('txtresult').style.color = "red";
+    });
+
+</script>
