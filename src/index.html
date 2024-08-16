@@ -3,19 +3,12 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Shrimp Weight</title>
   <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="icon" href="./../assets/icons/win/icon.ico">
-
-  <!-- Insert this line above script imports  -->
   <script>
     if (typeof module === 'object') { window.module = module; module = undefined; }
   </script>
-
-  <!-- normal script imports etc  -->
   <script type="text/javascript" src="./../node_modules/jquery/dist/jquery.min.js"></script>
-
-  <!-- Insert this line after script imports -->
   <script>if (window.module) module = window.module;</script>
   <link rel="stylesheet" href="index.css">
 </head>
@@ -23,27 +16,30 @@
 <body>
   <nav class="navbar navbar-dark bg-dark justify-content-center">
     <a class="navbar-brand" href="#">
-
-      <h3> <img src="./../assets/icons/logo_tm.png" width="50" height="40" class="d-inline-block align-top"
-          alt="">Product scanning system</h3>
+      <h3><img src="./../assets/icons/logo_tm.png" width="50" height="40" class="d-inline-block align-top">
+        Delivery
+        note system</h3>
     </a>
-
   </nav>
   <br>
-  <div class="container-fluid ">
-
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-md-6 ">
+      <div class="col-md-3" style="padding-bottom: 5px;padding-left: 1%;">
+        <input type="text" id="numdncode" class="form-control-lg" style="text-align: right;border-color: #0f0e0e;"
+          placeholder="สแกนบาร์โค้ดที่นี่" autofocus />
+        <!-- <button class="btn btn-secondary" onclick="createBrowserWindow();">เลือกใบรับสินค้าใหม่</button> -->
+      </div>
+      <div class="col-md-12" style="padding: 1%;">
         <div class="tableFixHead" style="overflow: hidden;">
           <table id="tbmain">
             <thead>
               <tr>
-                <th>รหัสสินค้า</th>
-                <th>ชื่อสินค้า</th>
-                <th>จำนวน</th>
-                <th>ราคาต่อหน่วย</th>
-                <th>ราคา</th>
-                <th>สถานะ</th>
+                <th width="10%">เลขที่ DN</th>
+                <th width="10%">รหัสลูกค้า</th>
+                <th width="20%">ชื่อลูกค้า</th>
+                <th width="10%">รหัสสินค้า</th>
+                <th width="20%">ชื่อสินค้า</th>
+                <th width="10%">ราคา</th>
               </tr>
             </thead>
             <tbody style="background-color: #ffffff;padding: 0;">
@@ -51,72 +47,18 @@
             </tbody>
           </table>
         </div>
-
-      </div>
-
-      <div class="col-md-6">
-        <div class="row">
-          <div class="col-10 col-md-12">
-            <div class="col-md-12">
-              <input type="text" id="tx_unitweigt" class="form-control-lg"
-                style="width: 100%;height:250px;font-size: 150px;text-align: right;color: #fb2a2a;border-color: #0f0e0e;background-color: #0f0e0e;"
-                value="0.00" />
-              <!-- <input type="text" id="tx_unitweigt" class="form-control-lg"
-                style="width: 100%;height:250px;font-size: 150px;text-align: right;color: #fb2a2a;border-color: #0f0e0e;background-color: #0f0e0e;"
-                value="0.61" /> -->
-            </div>
-            <br>
-
-            <div class="col-md-12">
-              <h3 id="txtresult" style="color: #4DBE05;padding: 0;font-weight: bold;">พร้อมใช้งาน</h3>
-            </div>
-
-
-            <br>
-            <div class="row">
-              <div class="col-md-12" style="padding-top: 5px;">
-                <div>
-                  <button class="btn btn-secondary" onclick="createBrowserWindow();">เลือกใบรับสินค้าใหม่</button>
-                  <button class="btn btn-secondary" onclick="createBrowserWindow2();">ตรวจสอบสินค้า</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6" style="position: absolute;bottom: 20px;right: 0px;">
-              <div>
-                <input type="text" id="tx_empcode" class="form-control-lg"
-                  style="width: 100%;height:200px;font-size: 100px;text-align: right;border-color: #0f0e0e;"
-                  placeholder="สแกนบาร์โค้ดที่นี่" autofocus />
-                <span id="statuscon" style="float: right;padding-top: 5px;">Connecting <img id="imgstatus"
-                    src="assets/icons/connect.png" width="15px" height="15px"></span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
-
-    <footer class="text-center text-lg-start bg-light text-muted fixed-bottom">
-      <div class="text-center p-2 " style="background-color: rgba(0, 0, 0, 0.05);">
-        © 2024 Copyright:
-        <a class="text-reset fw-bold" href="#">Jaroon Software CO.,Ltd</a>
-      </div>
-    </footer>
-
-    <!-- <script>
-      document.write(process.versions.node) 
-    </script>
-    <script>
-      document.write(process.versions.chrome) 
-    </script>
-    <script>
-      document.write(process.versions.electron) 
-    </script> -->
-
-    <!-- Adding Individual Renderer Process JS File -->
-    <script src="index.js"></script>
-    <script src="../renderer.js"></script>
-
+  </div>
+  <footer class="text-center text-lg-start bg-light text-muted fixed-bottom">
+    <div class="text-center p-2 " style="background-color: rgba(0, 0, 0, 0.05);">
+      © 2024 Copyright:
+      <a class="text-reset fw-bold" href="#">Jaroon Software CO.,Ltd</a>
+    </div>
+  </footer>
+  <script src="index.js"></script>
+  <script src="../renderer.js"></script>
 </body>
 
 </html>

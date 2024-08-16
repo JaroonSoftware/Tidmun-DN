@@ -1,9 +1,13 @@
+
 const { ipcRenderer } = require("electron");
+
+$(document).mousemove(function (event) {
+	$("#numdncode").focus();
+});
 
 ipcRenderer.on("got-access-token", (event, accessToken) => {
 //   data = accessToken.split(",");
   let grcode = accessToken;
-
   $.post("https://tidmunzbuffet.com/api_app/gr/getsup_gr.php", { grcode : grcode }, function (grhead) {
 	// console.log(grhead);
     let result = JSON.parse(grhead)
