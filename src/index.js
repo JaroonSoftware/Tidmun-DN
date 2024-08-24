@@ -18,20 +18,6 @@ function createBrowserWindow2() {
 }
 
 var count = 0;
-// $(document).ready(function () {
-	// $.post("https://tidmunzbuffet.com/api_app/gr/getsup_grdetail.php", function (r) {
-    // console.log(r)
-    // console.log("888")
-    // let data = JSON.parse(r)
-    // for (let c in data) {
-    //   $('#showdata').append("<option value=" + data[c].grcode + " >" + data[c].grcode + "</option>")
-	//   $('#showdata20').append("<option value=" + data[c].grcode + " >" + data[c].supcode + "</option>")
-	//   $('#datedata').append("<option value=" + data[c].grcode + " >" + data[c].grdate + "</option>")
-	//   $('#supname').val( data[c].prename +' '+ data[c].supname )
-	  
-    // }
-//   });  
-// });
 
 const { SerialPort } = require('serialport')
 const { ReadlineParser } = require('@serialport/parser-readline')

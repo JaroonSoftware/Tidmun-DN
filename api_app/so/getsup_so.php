@@ -5,8 +5,8 @@ ini_set('display_errors', 1);
 include '../conn.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-$sql = "SELECT a.grcode,a.grdate,s.supcode,s.supname FROM `grmaster` as a LEFT JOIN supplier as s on a.supcode = s.supcode ";
-$sql .= " where a.grcode = '" . $_POST['grcode'] . "' ";
+$sql = "SELECT a.socode,a.sodate,s.cuscode,s.cusname FROM `somaster` as a LEFT JOIN customer as s on a.cuscode = s.cuscode ";
+$sql .= " where a.socode = '" . $_POST['socode'] . "' ";
 // echo $sql;
 $stmt = $conn->prepare($sql);
 $stmt->execute();

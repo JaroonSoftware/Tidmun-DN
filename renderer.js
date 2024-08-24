@@ -2,26 +2,26 @@ const { ipcRenderer } = require("electron");
 
 ipcRenderer.on("got-access-token", (event, accessToken) => {
 //   data = accessToken.split(",");
-  let grcode = accessToken;
+  let socode = accessToken;
 
-  $.post("https://tidmunzbuffet.com/api_app/gr/getsup_gr.php", { grcode : grcode }, function (grhead) {
+  $.post("https://tidmunzbuffet.com/api_app/so/getsup_so.php", { socode : socode }, function (sohead) {
 	// console.log(grhead);
-    let result = JSON.parse(grhead)
-	$('#showdata').val(grcode)
-	$('#showdata20').val(result[0].supcode)
-	$('#datedata').val(result[0].grdate)
-	$('#supname').val(result[0].supname)
+    let result = JSON.parse(sohead)
+	$('#socode').val(socode)
+	$('#cuscode').val(result[0].cuscode)
+	$('#sodate').val(result[0].sodate)
+	$('#cusname').val(result[0].cusname	)
   
   });
 
-  $.post("https://tidmunzbuffet.com/api_app/gr/getsup_grdetail.php", { grcode : grcode }, function (grdetail) {
+  $.post("https://tidmunzbuffet.com/api_app/gr/getsup_grdetail.php", { socode : socode }, function (sodetail) {
 	// console.log(grdetail);
-    let result = JSON.parse(grdetail)
+    let result = JSON.parse(sodetail)
     $('#tbmain tbody').empty();
 
     for (let i in result) {
       tb = '';
-      tb += '<tr id="' + (i + 1) + '"><td>' + result[i].stcode + '</td><td>' + result[i].stname + '</td><td>' + result[i].qty + '</td><td>' + result[i].price + '</td><td>' + result[i].totalprice + '</td><td><button class="btn btn-secondary" onclick="PrintBarcode(\'' + result[i].grcode + '\');"> Print</button></td>';
+      tb += '<tr id="' + (i + 1) + '"><td>' + result[i].stcode + '</td><td>' + result[i].stname + '</td><td>' + result[i].qty + '</td><td>' + result[i].price + '</td><td>' + result[i].totalprice + '</td><td><button class="btn btn-secondary" onclick="PrintBarcode(\'' + result[i].socode + '\');"> Print</button></td>';
       tb += '</tr>';
       $(tb).appendTo("#tbmain");
     }

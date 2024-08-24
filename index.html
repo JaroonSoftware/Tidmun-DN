@@ -4,71 +4,35 @@
 <head>
   <meta charset="UTF-8">
   <title>Shrimp Weight</title>
-  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="icon" href="/assets/icons/win/icon.ico">
+  <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="icon" href="./../assets/icons/win/icon.ico">
 
+  <link rel="stylesheet" href="./../node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css">
+
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
   <!-- Insert this line above script imports  -->
   <script>
     if (typeof module === 'object') { window.module = module; module = undefined; }
   </script>
 
   <!-- normal script imports etc  -->
-  <script type="text/javascript" src="./node_modules/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="./../node_modules/jquery/dist/jquery.min.js"></script>
+  
+
+  <link rel="stylesheet" href="./../node_modules/sweetalert2/dist/sweetalert2.min.css">     
+  <script type="text/javascript" src="./../node_modules/sweetalert2/dist/sweetalert2.js"></script>
 
   <!-- Insert this line after script imports -->
   <script>if (window.module) module = window.module;</script>
-  <style>
-    /* Chrome, Safari, Edge, Opera */
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    .pane {
-      display: inline-block;
-      overflow-y: scroll;
-      max-height: 650px;
-    }
-
-    .tableFixHead {
-      overflow-y: auto;
-      height: 700px;
-    }
-
-    .tableFixHead thead th {
-      position: sticky;
-    }
-
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-
-    th,
-    td {
-      padding: 8px 16px;
-      border: 1px solid #0f0e0e;
-    }
-
-    th {
-      background: #e4b355;
-    }
-
-    body,
-    html {
-      height: 100%;
-      color: #0f0e0e;
-      background-color: #ccc;
-    }
-  </style>
+  <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
   <nav class="navbar navbar-dark bg-dark justify-content-center">
     <a class="navbar-brand" href="#">
 
-      <h3> <img src="./assets/icons/logo_tm.png" width="50" height="40" class="d-inline-block align-top" alt="">Product weight system</h3>
+      <h3> <img src="./../assets/icons/logo_tm.png" width="50" height="40" class="d-inline-block align-top"
+          alt="">Product weight system</h3>
     </a>
 
   </nav>
@@ -111,39 +75,42 @@
             <br>
 
             <div class="col-md-12">
-
               <h3 id="txtresult" style="color: #4DBE05;padding: 0;font-weight: bold;">พร้อมใช้งาน</h3>
             </div>
 
             <div class="row">
-              <div class="col-md-12">
-                <label for="selproduct">เลขที่ใบรับสินค้า</label>
-                <select class="form-control" id="selproduct" disabled></select>
+              <div class="col-md-4">
+                <label>เลขที่ใบขายสินค้า</label>
+                <input class="form-control" id="socode" disabled></input>
+              </div>
+              <div class="col-md-4">
+                <label>รหัสลูกค้า</label>
+                <input class="form-control" id="cuscode" disabled></input>
+              </div>
+              <div class="col-md-4">
+                <label>ชื่อผู้ขาย</label>
+                <input class="form-control" id="cusname" disabled></input>
+              </div>
+              <div class="col-md-4">
+                <label>ใบส่งของเลขที่</label>
+                <input class="form-control" id="dncode" disabled></input>
+              </div>
+              <div class="col-md-4">
+                <label>วันที่</label>
+                <input class="form-control" id="sodate" disabled></input>
               </div>
             </div>
+
             <br>
             <div class="row">
-              <div class="col-md-12">
-                <div style="padding-top: 5px;">
-                  <!-- <button onclick="window.open('modal/modal_product.html', '_blank', 'width=200,height=200');" >แก้ไขข้อมูล</button> -->
-                  <button class="btn btn-secondary" onclick="createBrowserWindow();">เลือกใบรับสินค้าใหม่</button>
-
-                </div>
+              <div class="col-md-12" style="padding-top: 5px;">
+                <button class="btn btn-success" onclick="createDN();"><i class="fa-solid fa-plus"></i>
+                  สร้างใบส่งของใหม่</button>
+                <button class="btn btn-secondary" onclick="createBrowserWindow();">เลือกใบขายสินค้าใหม่</button>
+                <button class="btn btn-secondary" onclick="createBrowserWindow2();">ตรวจสอบสินค้า</button>
               </div>
             </div>
-
           </div>
-
-
-        </div>
-      </div>
-      <div class="col-md-6" style="position: absolute;bottom: 20px;right: 0px;">
-        <div>
-          <input type="text" id="tx_empcode" class="form-control-lg"
-            style="width: 100%;height:200px;font-size: 100px;text-align: right;border-color: #0f0e0e;"
-            placeholder="สแกนบาร์โค้ดที่นี่" autofocus />
-          <span id="statuscon" style="float: right;padding-top: 5px;">Connecting <img id="imgstatus"
-              src="assets/icons/connect.png" width="15px" height="15px"></span>
         </div>
       </div>
     </div>
@@ -156,155 +123,37 @@
       </div>
     </footer>
 
-
+    <script src="index.js"></script>
+    <script src="../renderer.js"></script>
 
     <script>
 
-      $(document).mousemove(function (event) {
-        $("#tx_empcode").focus();
+      function createDN() {
+
+        // Swal.fire('กรุณาเลือกใบขายสินค้าก่อน', "", "success").then(() => {
+        // });
+        Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+        footer: '<a href="#">Why do I have this issue?</a>'
       });
 
-      function createBrowserWindow() {
-
-        const ipc = require("electron").ipcRenderer;
-        ipc.send('message:loginShow');
-
+        // if ($('#socode').val() === '')
+        //   Swal.fire({
+        //     title: "<strong>กรุณาเลือกใบขายสินค้าก่อน</strong>",
+        //     icon: "info",
+        //     showCloseButton: true,
+        //     showCancelButton: true,
+        //     focusConfirm: false,
+        //   });
+        // // alert('กรุณาเลือกใบขายสินค้าก่อน')
+        // Swal.fire('กรุณาเลือกใบขายสินค้าก่อน', "", "success").then(() => {
+        // });
       }
 
-      function EditWindow(data) {
-
-        const ipc = require("electron").ipcRenderer;
-        // ipc.send('message:Edit', data);
-        ipc.send('edit', data )
-
-        // ipc.send('notes', $('#selproduct').val() )
-      }
-
-      var connection;
-      var count = 0;
-      $(document).ready(function () {
-
-
-        $.post("https://yeeninfrozenfoods.com/api_app/weight_record/get_record.php", function (r) {
-
-          let result = JSON.parse(r)
-
-          for (let i in result) {
-            tb = '';
-            tb += '<tr id="' + (i + 1) + '"><td>' + result[i].empcode + '</td><td>' + result[i].firstname +'</td><td style="text-align: right;">' 
-              + result[i].unit_weight + '</td><td style="text-align: right;">' + result[i].empcode +'</td><td style="text-align: right;">' 
-                + result[i].empcode +'</td><td style="text-align: center;">' + result[i].firstname +'</td>'; tb += '</tr>';
-            $(tb).appendTo("#tbmain");
-          }
-
-        }).fail(function (error) {
-
-          $('#txtresult').text('อินเตอร์เน็ตมีปัญหา เชื่อมต่อไม่ได้')
-          document.getElementById('txtresult').style.color = "red";
-        });
-
-        $.post("https://yeeninfrozenfoods.com/api_app/product/get_allproduct.php", function (r) {
-
-          let data = JSON.parse(r)
-
-          for (let c in data) {
-            $('#selproduct').append("<option value=" + data[c].product_id + " >" + data[c].spec_name + ' ' + data[c].spec_type + ' ' + data[c].size_min + '/' + data[c].size_max + ' ' + "</option>")
-          }
-
-        }).fail(function (error) {
-
-          $('#txtresult').text('อินเตอร์เน็ตมีปัญหา เชื่อมต่อไม่ได้')
-        });
-
-      });
-      const { SerialPort } = require('serialport')
-      const { ReadlineParser } = require('@serialport/parser-readline')
-      const port = new SerialPort({ path: 'COM1', baudRate: 9600 }, function (err) {
-        if (err) {
-          document.getElementById('txtresult').innerHTML = 'เชื่อมต่อเครื่องชั่งน้ำหนักไม่สำเร็จ'
-          document.getElementById('txtresult').style.color = "red";
-          return console.log('Error: ', err.message)
-        }
-      })
-
-      const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }))
-      parser.on('data', addText)
-
-      function addText(event) {
-        // console.log(event)
-        document.getElementById("tx_unitweigt").value = parseFloat(event.substring(1, 8)).toFixed(2);
-      }
-
-      var inputempcode = document.getElementById("tx_empcode");
-      var inputweight = document.getElementById("tx_unitweigt");
-      var str;
-      var sql;
-
-      inputempcode.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-
-          if (inputweight.value > 0) {
-
-            $.post("https://yeeninfrozenfoods.com/api_app/employee/check_employee.php", { empcode: inputempcode.value }, function (r) {
-              let response = JSON.parse(r)
-              // console.log(response.status)
-              if (response.status === '1') {
-                let data = response;
-                // console.log(data['data'][0]['empcode'])
-                $.post("https://yeeninfrozenfoods.com/api_app/weight_record/add_record.php", { empcode: data['data'][0]['empcode'], unit_weight: inputweight.value, product_id: $("#selproduct").val(), create_date: data['data'][0]['create_date'] }, function (response2) {
-
-                  let r2 = JSON.parse(response2)
-
-                  if (r2.status === 1) {
-                    count++;
-                    str = '';
-                    str += '<tr id="' + count + '"><td>' + data['data'][0]['display_date'] + '</td><td>' + data['data'][0]['empcode'] + '</td><td>' + data['data'][0]['firstname'] + ' ' + data['data'][0]['lastname'] + '</td><td>' + inputweight.value + '</td><td>0</td><td><button class="btn btn-secondary" onclick="EditWindow(' + r2.id + ');"> Edit</button></td>';
-                    str += '</tr>';
-
-                    $("#tbmain").prepend(str);
-                    const elmnt = document.querySelector("table tr:last-child");
-                    elmnt.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
-                    document.getElementById('txtresult').innerHTML = 'บันทึกข้อมูลรหัส ' + data['data'][0]['empcode'] + ' สำเร็จ '
-                    document.getElementById('txtresult').style.color = "#4DBE05";
-                  }
-                  else {
-                    document.getElementById('txtresult').innerHTML = r2.message
-                    document.getElementById('txtresult').style.color = "red";
-                  }
-                }).fail(function (error) {
-
-                  $('#txtresult').text('อินเตอร์เน็ตมีปัญหา เชื่อมต่อไม่ได้')
-                });
-              }
-              else if (response.status === '2') {
-                document.getElementById('txtresult').innerHTML = response.message
-                document.getElementById('txtresult').style.color = "red";
-              }
-              else {
-                document.getElementById('txtresult').innerHTML = 'อินเตอร์เน็ตมีปัญหา กรุณากรอกอีกครั้ง'
-                document.getElementById('txtresult').style.color = "red";
-              }
-
-
-
-            });
-
-
-          } else {
-
-            document.getElementById('txtresult').innerHTML = 'กรุณาชั่งสินค้าก่อน ยิง Barcode'
-            document.getElementById('txtresult').style.color = "red";
-
-          }
-          inputempcode.value = null;
-          inputempcode.click();
-          event.preventDefault();
-        }
-      });
-
-      // You can also require other files to run in this process
-      require('./renderer.js')
     </script>
+
 </body>
 
 </html>

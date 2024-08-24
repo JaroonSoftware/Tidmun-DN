@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="icon" href="./../assets/icons/win/icon.ico">
 
+  <link rel="stylesheet" href="./../node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css">
+
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
   <!-- Insert this line above script imports  -->
   <script>
     if (typeof module === 'object') { window.module = module; module = undefined; }
@@ -14,6 +17,9 @@
 
   <!-- normal script imports etc  -->
   <script type="text/javascript" src="./../node_modules/jquery/dist/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="./../node_modules/sweetalert2/dist/sweetalert2.min.css">     
+  <script type="text/javascript" src="./../node_modules/sweetalert2/dist/sweetalert2.js"></script>
 
   <!-- Insert this line after script imports -->
   <script>if (window.module) module = window.module;</script>
@@ -73,30 +79,34 @@
 
             <div class="row">
               <div class="col-md-4">
-                <label>เลขที่ใบรับสินค้า</label>
-                <input class="form-control" id="showdata"  disabled></input>
+                <label>เลขที่ใบขายสินค้า</label>
+                <input class="form-control" id="socode" disabled></input>
               </div>
               <div class="col-md-4">
-                <label>รหัสผู้ขายสินค้า</label>
-                <input class="form-control" id="showdata20"  disabled></input>
+                <label>รหัสลูกค้า</label>
+                <input class="form-control" id="cuscode" disabled></input>
               </div>
               <div class="col-md-4">
                 <label>ชื่อผู้ขาย</label>
-                <input  class="form-control" id="supname"   disabled></input>
+                <input class="form-control" id="cusname" disabled></input>
+              </div>
+              <div class="col-md-4">
+                <label>ใบส่งของเลขที่</label>
+                <input class="form-control" id="dncode" disabled></input>
               </div>
               <div class="col-md-4">
                 <label>วันที่</label>
-                <input class="form-control" id="datedata"  disabled></input>
+                <input class="form-control" id="sodate" disabled></input>
               </div>
             </div>
 
             <br>
             <div class="row">
               <div class="col-md-12" style="padding-top: 5px;">
-                <div>
-                  <button class="btn btn-secondary" onclick="createBrowserWindow();">เลือกใบรับสินค้าใหม่</button>
-                  <button class="btn btn-secondary" onclick="createBrowserWindow2();">ตรวจสอบสินค้า</button>
-                </div>
+                <button class="btn btn-success" onclick="createDN();"><i class="fa-solid fa-plus"></i>
+                  สร้างใบส่งของใหม่</button>
+                <button class="btn btn-secondary" onclick="createBrowserWindow();">เลือกใบขายสินค้าใหม่</button>
+                <button class="btn btn-secondary" onclick="createBrowserWindow2();">ตรวจสอบสินค้า</button>
               </div>
             </div>
           </div>
@@ -112,19 +122,36 @@
       </div>
     </footer>
 
-    <!-- <script>
-      document.write(process.versions.node) 
-    </script>
-    <script>
-      document.write(process.versions.chrome) 
-    </script>
-    <script>
-      document.write(process.versions.electron) 
-    </script> -->
-
-    <!-- Adding Individual Renderer Process JS File -->
     <script src="index.js"></script>
     <script src="../renderer.js"></script>
+
+    <script>
+
+      function createDN() {
+
+        // Swal.fire('กรุณาเลือกใบขายสินค้าก่อน', "", "success").then(() => {
+        // });
+        Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong!",
+      footer: '<a href="#">Why do I have this issue?</a>'
+    });
+
+        // if ($('#socode').val() === '')
+        //   Swal.fire({
+        //     title: "<strong>กรุณาเลือกใบขายสินค้าก่อน</strong>",
+        //     icon: "info",
+        //     showCloseButton: true,
+        //     showCancelButton: true,
+        //     focusConfirm: false,
+        //   });
+        // // alert('กรุณาเลือกใบขายสินค้าก่อน')
+        // Swal.fire('กรุณาเลือกใบขายสินค้าก่อน', "", "success").then(() => {
+        // });
+      }
+
+    </script>
 
 </body>
 

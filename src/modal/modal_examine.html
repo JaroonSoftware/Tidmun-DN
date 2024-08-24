@@ -92,14 +92,14 @@
             <input class="form-control" id="stcode" readonly></input>
           </div>
           <div class="col-md-4">
-            <label>ชื่อสินค้า</label>
-            <input class="form-control" id="showdata" readonly></input>
-          </div>
+            <label>น้ำหนัก</label>
+            <input class="form-control" id="unit_weight" readonly></input>
+          </div>     
         </div>
         <div class="row" style="padding-top: 2%;">
           <div class="col-md-4">
-            <label>ราคา</label>
-            <input class="form-control" id="showdata20" readonly></input>
+            <label>ชื่อสินค้า</label>
+            <input class="form-control" id="stname" readonly></input>
           </div>
           <div class="col-md-4">
             <label>รหัสผู้ขาย</label>
@@ -107,18 +107,18 @@
           </div>
           <div class="col-md-4">
             <label>ชื่อผู้ขาย</label>
-            <input class="form-control" id="namesup" readonly></input>
+            <input class="form-control" id="supname" readonly></input>
           </div>
         </div>
         <div class="row" style="padding-top: 2%;">
 
           <div class="col-md-4">
             <label>รหัสผู้ซื้อ</label>
-            <input class="form-control" id="supcode" readonly></input>
+            <input class="form-control" id="cuscode" readonly></input>
           </div>
           <div class="col-md-4">
             <label>ชื่อผู้ซื้อ</label>
-            <input class="form-control" id="namesup" readonly></input>
+            <input class="form-control" id="cusname" readonly></input>
           </div>
         </div>
       </div>
@@ -146,15 +146,19 @@
   var inputempcode = document.getElementById("tx_itempcode");
   inputempcode.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
-      inputempcode.click(alert(tx_itempcode.value));
+      // inputempcode.click(alert(tx_itempcode.value));
       event.preventDefault();
-      if (inputempcode.value > 0) {
-        $.post("https://tidmunzbuffet.com/api_app/gr/get_gr.php", function (grdetail) {
+        $.post("https://tidmunzbuffet.com/api_app/barcode/check_barcode.php", { barcode_id: tx_itempcode.value }, function (grdetail) {
           let result = JSON.parse(grdetail)
-          $('#grcode').val(result[0].grcode)
-          $('#supcode').val(result[0].supcode)
+          $('#grcode').val(result.grcode)
+          $('#stcode').val(result.stcode)
+          $('#unit_weight').val(result.unit_weight)
+          $('#stname').val(result.stname)
+          $('#supcode').val(result.supcode)
+          $('#supname').val(result.supname)
+          $('#cuscode').val(result.cuscode)
+          $('#cusname').val(result.cusname)
         })
-      }
       inputempcode.value = null;
 
     }
