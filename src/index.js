@@ -46,19 +46,8 @@ function startScan() {
 
 function createDN() {
 
-	if ($('#socode').val() !== '') {
-		$('#tx_barcode').attr("placeholder", "สแกนบาร์โค้ดที่นี่");
-		$('#tx_barcode').prop("disabled", false);
-		$("#tx_barcode").focus();
-		$("#btnStartScan").hide();
-		$("#btnCreate").show();
-	}
-	else {
-		Swal.fire({
-			title: "<strong>กรุณาเลือกใบขายสินค้าก่อน</strong>",
-			icon: "error",
-		});
-	}
+	const ipc = require("electron").ipcRenderer;
+	ipc.send('createDN', $('#dncode').val());
 }
 
 var count = 0;

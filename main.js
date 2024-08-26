@@ -49,7 +49,22 @@ function createWindow() {
     // child.setIcon('assets/icons/win/icon.ico');
     child.loadFile("src/modal/modal_examine.html");
   }
-  
+  function showLoginWindow2() {
+    const child = new BrowserWindow({
+      autoHideMenuBar: true,
+      parent: mainWindow,
+      height: 700,
+      width: 1000,
+      webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: false,
+        enableRemoteModule: true,
+      },
+    });
+    // child.setIcon('assets/icons/win/icon.ico');
+    child.loadFile("src/modal/modal_examine.html");
+  }
+    
 
   const electronLocalshortcut = require("electron-localshortcut");
 
@@ -70,10 +85,11 @@ function createWindow() {
     mainWindow.webContents.send("delete-token");
   });
 
-  const editwindow = new BrowserWindow({
+  const createDN = new BrowserWindow({
     autoHideMenuBar: true,
     parent: mainWindow,
     height: 700,
+    width: 1000,
     show: false,
     webPreferences: {
       nodeIntegration: true,
@@ -81,19 +97,19 @@ function createWindow() {
       enableRemoteModule: true,
     },
   });
-
-
-  editwindow.loadFile("src/modal/modal_edit.html");
+  // child.setIcon('assets/icons/win/icon.ico');
+  createDN.loadFile("src/modal/modal_delivery.html");
+  
   // editwindow.setIcon('assets/icons/win/icon.ico');
-  editwindow.on("close", (evt) => {
+  createDN.on("close", (evt) => {
     evt.preventDefault(); // This will cancel the close
-    editwindow.hide();
+    createDN.hide();
   });
 
-  ipc.on("edit", (event, data) => {
+  ipc.on("createDN", (event, data) => {
     accessToken = data;
-    editwindow.show();
-    editwindow.webContents.send("send-token", accessToken);
+    createDN.show();
+    createDN.webContents.send("send-token", accessToken);
   });
 
   ipc.on("message:loginShow", () => {

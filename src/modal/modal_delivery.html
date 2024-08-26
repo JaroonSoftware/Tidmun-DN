@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>TIDMUN</title>
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../node_modules/@fortawesome/fontawesome-free/css/all.css"
+    />
+    <!-- <link rel="icon" href="../assets/icons/win/icon.ico"> -->
+    <!-- Insert this line above script imports  -->
+    <script>
+      if (typeof module === "object") {
+        window.module = module;
+        module = undefined;
+      }
+    </script>
+    <!-- normal script imports etc  -->
+    <script
+      type="text/javascript"
+      src="../../node_modules/jquery/dist/jquery.min.js"
+    ></script>
+    <!-- Insert this line after script imports -->
+    <script>
+      if (window.module) module = window.module;
+    </script>
+    <style>
+      /* Chrome, Safari, Edge, Opera */
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .pane {
+        display: inline-block;
+        overflow-y: scroll;
+        max-height: 650px;
+      }
+
+      .tableFixHead {
+        overflow-y: auto;
+        /* make the table scrollable if height is more than 200 px  */
+        height: 700px;
+        /* gives an initial height of 200px to the table */
+      }
+
+      .tableFixHead thead th {
+        position: sticky;
+        /* make the table heads sticky */
+        top: 0px;
+        /* table head will be placed from the top of the table and sticks to it */
+      }
+
+      table {
+        border-collapse: collapse;
+        /* make the table borders collapse to each other */
+        width: 100%;
+      }
+
+      th,
+      td {
+        padding: 8px 16px;
+        border: 1px solid #0f0e0e;
+      }
+
+      th {
+        background: #e4b355;
+      }
+
+      body,
+      html {
+        height: 100%;
+        color: #0f0e0e;
+        background-color: #ccc;
+        overflow-x: hidden;
+        /* background-image: url(./assets/icons/BG-login.png);
+            
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed; */
+      }
+    </style>
+  </head>
+
+  <body>
+    <br />
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col">
+              <label class="form-label">เลขที่ใบส่งของ</label>
+              <input type="text" id="dncode" class="form-control" disabled />
+            </div>
+            <div class="col">
+              <label class="form-label">&nbsp;</label>
+              <div class="row">
+                <div class="col">
+                  <button
+                    type="button"
+                    id="btnDelete"
+                    class="btn btn-danger form-control"
+                  >
+                    <i class="far fa-trash-alt"></i> ลบข้อมูล
+                  </button>
+                </div>
+                <div class="col">
+                  <button
+                    type="button"
+                    id="btnSubmit"
+                    class="btn btn-primary form-control"
+                  >
+                    <i class="far fa-edit"></i> บันทึกข้อมูล
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">หมายเหตุ Remark</label>
+          <textarea
+            row="2"
+            type="text"
+            id="remark"
+            class="form-control"
+          ></textarea>
+        </div>
+      </div>
+      <div><br /></div>
+      <hr />
+      <div class="mb-3">
+        <div class="row">
+          <div class="col">
+            <label class="form-label">Weight Id</label>
+            <input
+              type="text"
+              id="weight_record_id"
+              class="form-control"
+              disabled
+            />
+          </div>
+          <div class="col">
+            <label class="form-label">พนักงาน</label>
+            <input type="text" id="empcode" class="form-control" disabled />
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="row">
+          <div class="col">
+            <label class="form-label">น้ำหนักที่ชั่งได้</label>
+            <input type="text" id="unit_weight" class="form-control" disabled />
+          </div>
+          <div class="col">
+            <label class="form-label">Product</label>
+            <input
+              type="text"
+              id="product_weight"
+              class="form-control"
+              disabled
+            />
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="row">
+          <div class="col">
+            <label class="form-label">วันที่</label>
+            <input type="text" id="date" class="form-control" disabled />
+          </div>
+          <div class="col">
+            <label class="form-label">เวลา</label>
+            <input type="text" id="time" class="form-control" disabled />
+          </div>
+        </div>
+      </div>
+      <div><br /></div>
+      <hr />
+    </div>
+    <br />
+    <!-- <h3 id="txtresult" style="margin-left: 15px;color: #fb2a2a;padding: 0;font-weight: bold;">กด F10 เพื่อบันทึกผล</h3> -->
+  </body>
+</html>
+<script>
+  //----- ล๊อก cursor ไว้ที่ input-----------
+  $(document).mousemove(function (event) {
+    $("#tx_itempcode").focus();
+  });
+  //---------------------------------------
+
+  const { ipcRenderer } = require("electron");
+
+  ipcRenderer.on("send-token", (event, accessToken) => {
+    $("#dncode").val(accessToken);
+  });
+
+  var inputempcode = document.getElementById("tx_itempcode");
+  inputempcode.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      // inputempcode.click(alert(tx_itempcode.value));
+      event.preventDefault();
+      $.post(
+        "https://tidmunzbuffet.com/api_app/barcode/check_barcode.php",
+        { barcode_id: tx_itempcode.value },
+        function (grdetail) {
+          let result = JSON.parse(grdetail);
+          $("#grcode").val(result.grcode);
+          $("#stcode").val(result.stcode);
+          $("#unit_weight").val(result.unit_weight);
+          $("#stname").val(result.stname);
+          $("#supcode").val(result.supcode);
+          $("#supname").val(result.supname);
+          $("#cuscode").val(result.cuscode);
+          $("#cusname").val(result.cusname);
+        }
+      );
+      inputempcode.value = null;
+    }
+  });
+</script>
