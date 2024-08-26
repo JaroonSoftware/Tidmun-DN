@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Shrimp Weight</title>
+  <title>Tidmun-DN</title>
   <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="icon" href="./../assets/icons/win/icon.ico">
 
@@ -14,6 +14,8 @@
   <script>
     if (typeof module === 'object') { window.module = module; module = undefined; }
   </script>
+
+  <!-- normal script imports etc  -->
   <script type="text/javascript" src="./../node_modules/jquery/dist/jquery.min.js"></script>
 
   <link rel="stylesheet" href="./../node_modules/sweetalert2/dist/sweetalert2.min.css">
@@ -27,23 +29,32 @@
 <body>
   <nav class="navbar navbar-dark bg-dark justify-content-center">
     <a class="navbar-brand" href="#">
-      <h3><img src="./../assets/icons/logo_tm.png" width="50" height="40" class="d-inline-block align-top">Delivery note system</h3>
+
+      <h3> <img src="./../assets/icons/logo_tm.png" width="50" height="40" class="d-inline-block align-top"
+          alt="">Product weight system</h3>
     </a>
+
   </nav>
   <br>
-  <div class="container-fluid">
+  <div class="container-fluid ">
+
     <div class="row">
       <div class="col-md-6 ">
+        <div class="col-md-12">
+          <input type="text" id="tx_unitweigt" class="form-control-lg"
+            style="width: 100%;height:250px;font-size: 150px;text-align: right;color: #fb2a2a;border-color: #0f0e0e;background-color: #0f0e0e;"
+            value="0.00" />
+        </div>
+        <br>
         <div class="tableFixHead" style="overflow: hidden;">
-          <table id="tbmain">
+          <table id="tbDN">
             <thead>
               <tr>
+                <th>รายการใบส่งของ</th>
                 <th>รหัสสินค้า</th>
                 <th>ชื่อสินค้า</th>
                 <th>จำนวน</th>
-                <th>ราคาต่อหน่วย</th>
-                <th>ราคา</th>
-                <th>สถานะ</th>
+                <th>ออกใบส่งของแล้ว</th>
               </tr>
             </thead>
             <tbody style="background-color: #ffffff;padding: 0;">
@@ -57,15 +68,7 @@
       <div class="col-md-6">
         <div class="row">
           <div class="col-10 col-md-12">
-            <div class="col-md-12">
-              <input type="text" id="tx_unitweigt" class="form-control-lg"
-                style="width: 100%;height:250px;font-size: 150px;text-align: right;color: #fb2a2a;border-color: #0f0e0e;background-color: #0f0e0e;"
-                value="0.00" />
-              <!-- <input type="text" id="tx_unitweigt" class="form-control-lg"
-                style="width: 100%;height:250px;font-size: 150px;text-align: right;color: #fb2a2a;border-color: #0f0e0e;background-color: #0f0e0e;"
-                value="0.61" /> -->
-            </div>
-            <br>
+            
 
             <div class="col-md-12">
               <h3 id="txtresult" style="color: #4DBE05;padding: 0;font-weight: bold;">พร้อมใช้งาน</h3>
@@ -73,12 +76,12 @@
 
             <div class="row">
               <div class="col-md-4">
-                <label>เลขที่ใบรับสินค้า</label>
-                <input class="form-control" id="showdata"  disabled></input>
+                <label>เลขที่ใบขายสินค้า</label>
+                <input class="form-control" id="socode" disabled></input>
               </div>
               <div class="col-md-4">
-                <label>รหัสผู้ขายสินค้า</label>
-                <input class="form-control" id="showdata20"  disabled></input>
+                <label>รหัสลูกค้า</label>
+                <input class="form-control" id="cuscode" disabled></input>
               </div>
               <div class="col-md-4">
                 <label>ชื่อลูกค้า</label>
@@ -90,10 +93,9 @@
               </div>
               <div class="col-md-4">
                 <label>วันที่</label>
-                <input class="form-control" id="datedata"  disabled></input>
+                <input class="form-control" id="sodate" disabled></input>
               </div>
             </div>
-
             <br>
             <div class="row">
               <div class="col-md-12" style="padding-top: 5px;">
@@ -115,6 +117,23 @@
                    disabled/>
               </div>
             </div>
+            <br>
+            <div class="tableFixHead" style="overflow: hidden;">
+              <table id="tbmain">
+                <thead>
+                  <tr>
+                    <th>รายการใบขายสินค้า</th>
+                    <th>รหัสสินค้า</th>
+                    <th>ชื่อสินค้า</th>
+                    <th>จำนวน</th>
+                    <th>ออกใบส่งของแล้ว</th>
+                  </tr>
+                </thead>
+                <tbody style="background-color: #ffffff;padding: 0;">
+    
+                </tbody>
+              </table>
+            </div>            
           </div>
         </div>
       </div>
@@ -128,17 +147,6 @@
       </div>
     </footer>
 
-    <!-- <script>
-      document.write(process.versions.node) 
-    </script>
-    <script>
-      document.write(process.versions.chrome) 
-    </script>
-    <script>
-      document.write(process.versions.electron) 
-    </script> -->
-
-    <!-- Adding Individual Renderer Process JS File -->
     <script src="index.js"></script>
     <script src="../renderer.js"></script>
 
