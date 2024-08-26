@@ -1,4 +1,9 @@
+
 const { ipcRenderer } = require("electron");
+
+$(document).mousemove(function (event) {
+	$("#numdncode").focus();
+});
 
 ipcRenderer.on("got-access-token", (event, accessToken) => {
 //   data = accessToken.split(",");
