@@ -3,11 +3,11 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Tidmun-DN</title>
+  <title>Shrimp Weight</title>
   <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="icon" href="./../assets/icons/win/icon.ico">
 
-  <link rel="stylesheet" href="./../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="./../node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css">
 
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
   <!-- Insert this line above script imports  -->
@@ -17,8 +17,9 @@
 
   <!-- normal script imports etc  -->
   <script type="text/javascript" src="./../node_modules/jquery/dist/jquery.min.js"></script>
+  
 
-  <link rel="stylesheet" href="./../node_modules/sweetalert2/dist/sweetalert2.min.css">
+  <link rel="stylesheet" href="./../node_modules/sweetalert2/dist/sweetalert2.min.css">     
   <script type="text/javascript" src="./../node_modules/sweetalert2/dist/sweetalert2.js"></script>
 
   <!-- Insert this line after script imports -->
@@ -40,21 +41,16 @@
 
     <div class="row">
       <div class="col-md-6 ">
-        <div class="col-md-12">
-          <input type="text" id="tx_unitweigt" class="form-control-lg"
-            style="width: 100%;height:250px;font-size: 150px;text-align: right;color: #fb2a2a;border-color: #0f0e0e;background-color: #0f0e0e;"
-            value="0.00" />
-        </div>
-        <br>
         <div class="tableFixHead" style="overflow: hidden;">
-          <table id="tbDN">
+          <table id="tbmain">
             <thead>
               <tr>
-                <th>รายการใบส่งของ</th>
                 <th>รหัสสินค้า</th>
                 <th>ชื่อสินค้า</th>
                 <th>จำนวน</th>
-                <th>ออกใบส่งของแล้ว</th>
+                <th>ราคาต่อหน่วย</th>
+                <th>ราคา</th>
+                <th>สถานะ</th>
               </tr>
             </thead>
             <tbody style="background-color: #ffffff;padding: 0;">
@@ -68,7 +64,15 @@
       <div class="col-md-6">
         <div class="row">
           <div class="col-10 col-md-12">
-            
+            <div class="col-md-12">
+              <input type="text" id="tx_unitweigt" class="form-control-lg"
+                style="width: 100%;height:250px;font-size: 150px;text-align: right;color: #fb2a2a;border-color: #0f0e0e;background-color: #0f0e0e;"
+                value="0.00" />
+              <!-- <input type="text" id="tx_unitweigt" class="form-control-lg"
+                style="width: 100%;height:250px;font-size: 150px;text-align: right;color: #fb2a2a;border-color: #0f0e0e;background-color: #0f0e0e;"
+                value="0.61" /> -->
+            </div>
+            <br>
 
             <div class="col-md-12">
               <h3 id="txtresult" style="color: #4DBE05;padding: 0;font-weight: bold;">พร้อมใช้งาน</h3>
@@ -84,11 +88,11 @@
                 <input class="form-control" id="cuscode" disabled></input>
               </div>
               <div class="col-md-4">
-                <label>ชื่อลูกค้า</label>
+                <label>ชื่อผู้ขาย</label>
                 <input class="form-control" id="cusname" disabled></input>
               </div>
               <div class="col-md-4">
-                <label>เลขที่ใบส่งของ</label>
+                <label>ใบส่งของเลขที่</label>
                 <input class="form-control" id="dncode" disabled></input>
               </div>
               <div class="col-md-4">
@@ -96,44 +100,16 @@
                 <input class="form-control" id="sodate" disabled></input>
               </div>
             </div>
+
             <br>
             <div class="row">
               <div class="col-md-12" style="padding-top: 5px;">
-                <button id="btnStartScan" class="btn btn-primary" onclick="startScan();"><i class="fa-solid fa-edit"></i>
-                  เริ่ม Scan สินค้า</button>
-                <button id="btnCreate" class="btn btn-success" onclick="createDN();" style="display: none"><i class="fa-solid fa-plus"></i>
-                  สร้างใบส่งของ</button>
-                  <!-- <button class="btn btn-danger" onclick="createDN();"><i class="fa fa-times" aria-hidden="true"></i>
-                    ยกเลิกใบส่งของ</button> -->
-                <button class="btn btn-secondary" onclick="ChangeSO();">เลือกใบขายสินค้าใหม่</button>
-                <button class="btn btn-secondary" onclick="checkBarcode();">ตรวจสอบสินค้า</button>
+                <button class="btn btn-success" onclick="createDN();"><i class="fa-solid fa-plus"></i>
+                  สร้างใบส่งของใหม่</button>
+                <button class="btn btn-secondary" onclick="createBrowserWindow();">เลือกใบขายสินค้าใหม่</button>
+                <button class="btn btn-secondary" onclick="createBrowserWindow2();">ตรวจสอบสินค้า</button>
               </div>
             </div>
-            <br>
-            <div class="col-md-6" style="width: 100%;right: 0px;">
-              <div>
-                <input type="text" id="tx_barcode" class="form-control-lg"
-                  style="width: 100%;height:200px;font-size: 100px;text-align: right;border-color: #0f0e0e;"
-                   disabled/>
-              </div>
-            </div>
-            <br>
-            <div class="tableFixHead" style="overflow: hidden;">
-              <table id="tbmain">
-                <thead>
-                  <tr>
-                    <th>รายการใบขายสินค้า</th>
-                    <th>รหัสสินค้า</th>
-                    <th>ชื่อสินค้า</th>
-                    <th>จำนวน</th>
-                    <th>ออกใบส่งของแล้ว</th>
-                  </tr>
-                </thead>
-                <tbody style="background-color: #ffffff;padding: 0;">
-    
-                </tbody>
-              </table>
-            </div>            
           </div>
         </div>
       </div>
@@ -152,7 +128,29 @@
 
     <script>
 
-      
+      function createDN() {
+
+        // Swal.fire('กรุณาเลือกใบขายสินค้าก่อน', "", "success").then(() => {
+        // });
+        Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+        footer: '<a href="#">Why do I have this issue?</a>'
+      });
+
+        // if ($('#socode').val() === '')
+        //   Swal.fire({
+        //     title: "<strong>กรุณาเลือกใบขายสินค้าก่อน</strong>",
+        //     icon: "info",
+        //     showCloseButton: true,
+        //     showCancelButton: true,
+        //     focusConfirm: false,
+        //   });
+        // // alert('กรุณาเลือกใบขายสินค้าก่อน')
+        // Swal.fire('กรุณาเลือกใบขายสินค้าก่อน', "", "success").then(() => {
+        // });
+      }
 
     </script>
 
