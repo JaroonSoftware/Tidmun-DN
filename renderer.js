@@ -7,8 +7,6 @@ $(document).mousemove(function (event) {
 
 ipcRenderer.on("got-access-token", (event, accessToken) => {
 //   data = accessToken.split(",");
-  let grcode = accessToken;
-  $.post("https://tidmunzbuffet.com/api_app/gr/getsup_gr.php", { grcode : grcode }, function (grhead) {
   let socode = accessToken;
 
   $.post("https://tidmunzbuffet.com/api_app/so/getsup_so.php", { socode : socode }, function (sohead) {
