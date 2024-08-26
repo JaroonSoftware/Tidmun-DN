@@ -140,4 +140,8 @@ inputbarcode.addEventListener("keypress", function (event) {
 		inputbarcode.click();
 		event.preventDefault();
 	}
+	event.preventDefault();
+	inputdncode.value = null;
+
+  }
 });
