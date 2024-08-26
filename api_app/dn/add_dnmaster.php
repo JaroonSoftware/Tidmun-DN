@@ -52,61 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //     die;
     // }
 
-
-
-
-
-    
-
-    // $sql = "
-    // update grbarcode 
-    // set
-    // unit_weight = :unit_weight,
-    // barcode_status = 'ออก barcode แล้ว',
-    // barcode_date = CURRENT_TIMESTAMP()
-    // where grcode = :grcode and stcode = :stcode and no = :no";
-
-    // $stmt = $conn->prepare($sql);
-    // if (!$stmt) throw new PDOException("Insert data error => {$conn->errorInfo()}");
-
-    // $stmt->bindValue(":unit_weight", number_format($_POST['unit_weight'], 2), PDO::PARAM_STR);
-    // $stmt->bindParam(":no", $_POST['no'], PDO::PARAM_STR);
-    // $stmt->bindParam(":stcode", $_POST['stcode'], PDO::PARAM_STR);
-    // $stmt->bindValue(":grcode", $_POST['grcode'], PDO::PARAM_STR);
-
-    // if (!$stmt->execute()) {
-    //     $error = $conn->errorInfo();
-    //     throw new PDOException("Insert data error => $error");
-    //     die;
-    // }
-
-    // $strSQL = "SELECT count(id) as count FROM `grbarcode` where barcode_status!='ออก barcode แล้ว' and grcode = '".$_POST['grcode']."' and stcode = '".$_POST['stcode']."' ";
-    // $stmt = $conn->prepare($strSQL);
-    // $stmt->execute();
-    // $res = $stmt->fetch(PDO::FETCH_ASSOC);
-    // extract($res, EXTR_OVERWRITE, "_");                
-    //     if($count==0)
-    //     {
-
-    //         $sql = "
-    //         update grmaster 
-    //         set
-    //         doc_status = 'ชั่งสินค้าครบแล้ว',
-    //         updated_date = CURRENT_TIMESTAMP()
-    //         where grcode = :grcode ";
-
-    //         $stmt = $conn->prepare($sql);
-    //         if (!$stmt) throw new PDOException("Insert data error => {$conn->errorInfo()}");
-
-    //         $stmt->bindValue(":grcode", $_POST['grcode'], PDO::PARAM_STR);
-
-    //         if (!$stmt->execute()) {
-    //             $error = $conn->errorInfo();
-    //             throw new PDOException("Insert data error => $error");
-    //             die;
-    //         }
-    //     }
-
     // $conn->commit();
     if ($stmt->execute()) {
         http_response_code(200);
