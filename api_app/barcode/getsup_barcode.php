@@ -6,22 +6,20 @@ include '../conn.php';
 
 // echo $_POST['barcode_id'];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-$sql = "SELECT a.barcode_id, a.stcode,i.stname , a.grcode, a.barcode_status, a.socode, a.dncode, a.created_date, a.updated_date 
-FROM tidmunzb_db.items_barcode a 
-left outer join items i on (a.stcode=i.stcode)
-left outer join grmaster g on (a.grcode=g.grcode)
-left outer join supplier s on (g.supcode=s.supcode) 
-left outer join somaster so on (a.socode = so.socode)
-left outer join customer c on (so.cuscode=c.cuscode)";
-$sql .= " where a.barcode_id = '" . $_POST['barcode_id'] . "' ";
-// echo $sql;
-$stmt = $conn->prepare($sql);
-$stmt->execute();
-$data = $stmt->fetch(PDO::FETCH_ASSOC);
+    $sql = "SELECT a.no, a.stcode,i.stname , a.grcode,a.unit_weight, a.barcode_status
+    FROM tidmunzb_db.grbarcode a 
+    left outer join items i on (a.stcode=i.stcode)
+    left outer join grdetail d on (a.grcode=d.grcode)
+    left outer join grmaster g on (a.grcode=g.grcode)
+    left outer join supplier s on (g.supcode=s.supcode) 
+    where a.grcode = '" . $_POST['grcode'] . "' and a.stcode = '" . $_POST['stcode'] . "' ";
+    // echo $sql;
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-
-http_response_code(200);
-echo json_encode($data);
+    http_response_code(200);
+    echo json_encode($data);
 } else {
     http_response_code(400);
     echo json_encode(array('status' => '0', 'message' => 'request method fail.'));

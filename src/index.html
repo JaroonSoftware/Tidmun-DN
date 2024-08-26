@@ -3,12 +3,23 @@
 
 <head>
   <meta charset="UTF-8">
+  <title>Tidmun-DN</title>
   <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="icon" href="./../assets/icons/win/icon.ico">
+
+  <link rel="stylesheet" href="./../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  <!-- Insert this line above script imports  -->
   <script>
     if (typeof module === 'object') { window.module = module; module = undefined; }
   </script>
   <script type="text/javascript" src="./../node_modules/jquery/dist/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="./../node_modules/sweetalert2/dist/sweetalert2.min.css">
+  <script type="text/javascript" src="./../node_modules/sweetalert2/dist/sweetalert2.js"></script>
+
+  <!-- Insert this line after script imports -->
   <script>if (window.module) module = window.module;</script>
   <link rel="stylesheet" href="index.css">
 </head>
@@ -22,22 +33,22 @@
   <br>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-3" style="padding-bottom: 5px;padding-left: 1%;">
-        <input  type="text" id="numdncode" class="form-control-lg" style="text-align: right;border-color: #0f0e0e;"
-          placeholder="สแกนบาร์โค้ดที่นี่" autofocus />
-        <!-- <button class="btn btn-secondary" onclick="createBrowserWindow();">เลือกใบรับสินค้าใหม่</button> -->
-      </div>
-      <div class="col-md-12" style="padding: 1%;">
+      <div class="col-md-6 ">
+        <div class="col-md-12">
+          <input type="text" id="tx_unitweigt" class="form-control-lg"
+            style="width: 100%;height:250px;font-size: 150px;text-align: right;color: #fb2a2a;border-color: #0f0e0e;background-color: #0f0e0e;"
+            value="0.00" />
+        </div>
+        <br>
         <div class="tableFixHead" style="overflow: hidden;">
-          <table id="tbmain">
+          <table id="tbDN">
             <thead>
               <tr>
-                <th width="10%">เลขที่ DN</th>
-                <th width="10%">รหัสลูกค้า</th>
-                <th width="20%">ชื่อลูกค้า</th>
-                <th width="10%">รหัสสินค้า</th>
-                <th width="20%">ชื่อสินค้า</th>
-                <th width="10%">ราคา</th>
+                <th>รายการใบส่งของ</th>
+                <th>รหัสสินค้า</th>
+                <th>ชื่อสินค้า</th>
+                <th>จำนวน</th>
+                <th>ออกใบส่งของแล้ว</th>
               </tr>
             </thead>
             <tbody style="background-color: #ffffff;padding: 0;">
@@ -45,18 +56,100 @@
             </tbody>
           </table>
         </div>
+
+      </div>
+
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-10 col-md-12">
+            
+
+            <div class="col-md-12">
+              <h3 id="txtresult" style="color: #4DBE05;padding: 0;font-weight: bold;">พร้อมใช้งาน</h3>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <label>เลขที่ใบขายสินค้า</label>
+                <input class="form-control" id="socode" disabled></input>
+              </div>
+              <div class="col-md-4">
+                <label>รหัสลูกค้า</label>
+                <input class="form-control" id="cuscode" disabled></input>
+              </div>
+              <div class="col-md-4">
+                <label>ชื่อลูกค้า</label>
+                <input class="form-control" id="cusname" disabled></input>
+              </div>
+              <div class="col-md-4">
+                <label>เลขที่ใบส่งของ</label>
+                <input class="form-control" id="dncode" disabled></input>
+              </div>
+              <div class="col-md-4">
+                <label>วันที่</label>
+                <input class="form-control" id="sodate" disabled></input>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-12" style="padding-top: 5px;">
+                <button id="btnStartScan" class="btn btn-primary" onclick="startScan();"><i class="fa-solid fa-edit"></i>
+                  เริ่ม Scan สินค้า</button>
+                <button id="btnCreate" class="btn btn-success" onclick="createDN();" style="display: none"><i class="fa-solid fa-plus"></i>
+                  สร้างใบส่งของ</button>
+                  <!-- <button class="btn btn-danger" onclick="createDN();"><i class="fa fa-times" aria-hidden="true"></i>
+                    ยกเลิกใบส่งของ</button> -->
+                <button class="btn btn-secondary" onclick="ChangeSO();">เลือกใบขายสินค้าใหม่</button>
+                <button class="btn btn-secondary" onclick="checkBarcode();">ตรวจสอบสินค้า</button>
+              </div>
+            </div>
+            <br>
+            <div class="col-md-6" style="width: 100%;right: 0px;">
+              <div>
+                <input type="text" id="tx_barcode" class="form-control-lg"
+                  style="width: 100%;height:200px;font-size: 100px;text-align: right;border-color: #0f0e0e;"
+                   disabled/>
+              </div>
+            </div>
+            <br>
+            <div class="tableFixHead" style="overflow: hidden;">
+              <table id="tbmain">
+                <thead>
+                  <tr>
+                    <th>รายการใบขายสินค้า</th>
+                    <th>รหัสสินค้า</th>
+                    <th>ชื่อสินค้า</th>
+                    <th>จำนวน</th>
+                    <th>ออกใบส่งของแล้ว</th>
+                  </tr>
+                </thead>
+                <tbody style="background-color: #ffffff;padding: 0;">
+    
+                </tbody>
+              </table>
+            </div>            
+          </div>
+        </div>
       </div>
     </div>
 
-  </div>
-  <footer class="text-center text-lg-start bg-light text-muted fixed-bottom">
-    <div class="text-center p-2 " style="background-color: rgba(0, 0, 0, 0.05);">
-      © 2024 Copyright:
-      <a class="text-reset fw-bold" href="#">Jaroon Software CO.,Ltd</a>
-    </div>
-  </footer>
-  <script src="index.js"></script>
-  <script src="../renderer.js"></script>
+
+    <footer class="text-center text-lg-start bg-light text-muted fixed-bottom">
+      <div class="text-center p-2 " style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2024 Copyright:
+        <a class="text-reset fw-bold" href="#">Jaroon Software CO.,Ltd</a>
+      </div>
+    </footer>
+
+    <script src="index.js"></script>
+    <script src="../renderer.js"></script>
+
+    <script>
+
+      
+
+    </script>
+
 </body>
 
 </html>
