@@ -77,21 +77,7 @@ var str;
 inputbarcode.addEventListener("keypress", function (event) {
 	if (event.key === "Enter") {
 
-		// alert(inputsocode)
 		if (inputweight.value > 0) {
-			// console.log(data['data'][0]['empcode'])
-			// alert($('#socode').val())
-
-
-			// $.post("https://tidmunzbuffet.com/api_app/dn/add_dndetail.php", { socode: $('#socode').val() ,dncode: $('#dncode').val() ,barcode_id:inputbarcode }, function (response2) {
-
-			// 	let r2 = JSON.parse(response2)
-			// 	$('#dncode').val(r2.dncode)
-
-			// }).fail(function (error) {
-
-			// 	$('#txtresult').text('อินเตอร์เน็ตมีปัญหา เชื่อมต่อไม่ได้')
-			// });
 
 			$.post("https://tidmunzbuffet.com/api_app/dn/add_dndetail.php", { socode: $('#socode').val(), dncode: $('#dncode').val(), barcode_id: inputbarcode.value }, function (response2) {
 
@@ -107,10 +93,14 @@ inputbarcode.addEventListener("keypress", function (event) {
 					tb += '</tr>';
 					$(tb).appendTo("#tableDN");
 
+					document.getElementById('txtresult').style.color = "#4DBE05";
 					$('#txtresult').text('เพิ่มสินค้า ' + r2.data.stname + ' สำเร็จ')
 				}
 				else
+				{
 				$('#txtresult').text(r2.message)
+				document.getElementById('txtresult').style.color = "red";
+				}
 
 			}).fail(function (error) {
 

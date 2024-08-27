@@ -91,79 +91,57 @@
     <br />
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <div class="row">
             <div class="col">
               <label class="form-label">เลขที่ใบส่งของ</label>
               <input type="text" id="dncode" class="form-control" disabled />
             </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="row">
             <div class="col">
-              <label class="form-label">&nbsp;</label>
-              <div class="row">
-                <div class="col">
-                  <button
-                    type="button"
-                    id="btnDelete"
-                    class="btn btn-danger form-control"
-                  >
-                    <i class="far fa-trash-alt"></i> ลบข้อมูล
-                  </button>
-                </div>
-                <div class="col">
-                  <button
-                    type="button"
-                    id="btnSubmit"
-                    class="btn btn-primary form-control"
-                  >
-                    <i class="far fa-edit"></i> บันทึกข้อมูล
-                  </button>
-                </div>
-              </div>
+              <label class="form-label">รหัสลูกค้า</label>
+              <input type="text" id="cuscode" class="form-control" disabled />
             </div>
           </div>
         </div>
         <div class="col-md-6">
-          <label class="form-label">หมายเหตุ Remark</label>
-          <textarea
-            row="2"
-            type="text"
-            id="remark"
-            class="form-control"
-          ></textarea>
+          <div class="row">
+            <div class="col">
+              <label class="form-label">ชื่อลูกค้า</label>
+              <input type="text" id="cusname" class="form-control" disabled />
+            </div>
+          </div>
         </div>
       </div>
-      <div><br /></div>
+      <br />
       <hr />
       <div class="mb-3">
         <div class="row">
           <div class="col">
-            <label class="form-label">Weight Id</label>
-            <input
-              type="text"
-              id="weight_record_id"
-              class="form-control"
-              disabled
-            />
+            <label class="form-label"> เลขที่ผู้เสียภาษี</label>
+            <input type="text" id="taxnumber" class="form-control" disabled />
           </div>
           <div class="col">
-            <label class="form-label">พนักงาน</label>
-            <input type="text" id="empcode" class="form-control" disabled />
+            <label class="form-label">เลขที่</label>
+            <input type="text" id="idno" class="form-control" />
           </div>
         </div>
       </div>
       <div class="mb-3">
         <div class="row">
           <div class="col">
-            <label class="form-label">น้ำหนักที่ชั่งได้</label>
-            <input type="text" id="unit_weight" class="form-control" disabled />
+            <label class="form-label"> ถนน</label>
+            <input type="text" id="road" class="form-control" />
           </div>
           <div class="col">
-            <label class="form-label">Product</label>
+            <label class="form-label">ตำบล</label>
             <input
               type="text"
-              id="product_weight"
-              class="form-control"
-              disabled
+              id="subdistrict"
+              class="form-control"              
             />
           </div>
         </div>
@@ -171,12 +149,20 @@
       <div class="mb-3">
         <div class="row">
           <div class="col">
-            <label class="form-label">วันที่</label>
-            <input type="text" id="date" class="form-control" disabled />
+            <label class="form-label">อำเภอ</label>
+            <input type="text" id="district" class="form-control" />
           </div>
           <div class="col">
-            <label class="form-label">เวลา</label>
-            <input type="text" id="time" class="form-control" disabled />
+            <label class="form-label">จังหวัด</label>
+            <input type="text" id="province" class="form-control" />
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="row">
+          <div class="col">
+            <label class="form-label">เลขที่ไปรษณีย์</label>
+            <input type="text" id="zipcode" class="form-control" />
           </div>
         </div>
       </div>
@@ -184,6 +170,16 @@
       <hr />
     </div>
     <br />
+    <div class="row justify-content-end">
+      <!-- <div class="col">
+          <button type="button" id="btnDelete" class="btn btn-danger form-control"><i
+                  class='far fa-trash-alt'></i> ลบข้อมูล</button>
+      </div> -->
+      <div class="col-md-4" style="margin-right: 30px;">
+          <button type="button" id="btnSubmit" class="btn btn-primary form-control"><i
+                  class='far fa-edit'></i> บันทึกข้อมูล</button>
+      </div>
+  </div>
     <!-- <h3 id="txtresult" style="margin-left: 15px;color: #fb2a2a;padding: 0;font-weight: bold;">กด F10 เพื่อบันทึกผล</h3> -->
   </body>
 </html>
@@ -198,29 +194,35 @@
 
   ipcRenderer.on("send-token", (event, accessToken) => {
     $("#dncode").val(accessToken);
-  });
 
-  var inputempcode = document.getElementById("tx_itempcode");
-  inputempcode.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-      // inputempcode.click(alert(tx_itempcode.value));
-      event.preventDefault();
-      $.post(
-        "https://tidmunzbuffet.com/api_app/barcode/check_barcode.php",
-        { barcode_id: tx_itempcode.value },
-        function (grdetail) {
-          let result = JSON.parse(grdetail);
-          $("#grcode").val(result.grcode);
-          $("#stcode").val(result.stcode);
-          $("#unit_weight").val(result.unit_weight);
-          $("#stname").val(result.stname);
-          $("#supcode").val(result.supcode);
-          $("#supname").val(result.supname);
+    $.post(
+        "https://tidmunzbuffet.com/api_app/dn/get_customerdetail.php",
+        { dncode: accessToken },
+        function (cusdetail) {
+          let result = JSON.parse(cusdetail);
+          
           $("#cuscode").val(result.cuscode);
           $("#cusname").val(result.cusname);
+          $("#taxnumber").val(result.taxnumber);
+          $("#idno").val(result.idno);
+          $("#road").val(result.road);
+          $("#subdistrict").val(result.subdistrict);
+          $("#district").val(result.district);
+          $("#province").val(result.province);
+          $("#zipcode").val(result.zipcode);
+
         }
       );
-      inputempcode.value = null;
-    }
   });
+
+  $("#btnSubmit").click(function () {
+  
+    const ipc = window.require("electron").ipcRenderer;
+    // alert($("#dncode").val())
+    ipc.send('submitDN',$("#dncode").val())
+
+    window.close();
+
+  });
+
 </script>

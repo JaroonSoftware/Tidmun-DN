@@ -64,9 +64,6 @@ function createWindow() {
     // child.setIcon('assets/icons/win/icon.ico');
     child.loadFile("src/modal/modal_examine.html");
   }
-    
-
-  const electronLocalshortcut = require("electron-localshortcut");
 
   ipc.on("notes", (event, data) => {
     accessToken = data;
@@ -112,12 +109,19 @@ function createWindow() {
     createDN.webContents.send("send-token", accessToken);
   });
 
+  ipc.on("submitDN", (event, data) => {
+    
+    mainWindow.webContents.send("submit-reset",data);
+  });
+
   ipc.on("message:loginShow", () => {
     showLoginWindow();
   });
   ipc.on("message:loginShow2", () => {
     showLoginWindow2();
   });
+
+  const electronLocalshortcut = require("electron-localshortcut");
 
   electronLocalshortcut.register(mainWindow, "Escape", () => {
     mainWindow.close();

@@ -36,8 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $sql = "INSERT INTO dnmaster
-    (dncode,cuscode, dndate, active_status, created_date)
-    VALUES (:dncode,:cuscode, :dndate, 'รอออกใบแจ้งหนี้', current_timestamp())";
+    (dncode,cuscode, dndate,socode, active_status, created_date)
+    VALUES (:dncode,:cuscode, :dndate,:socode, 'รอออกใบแจ้งหนี้', current_timestamp())";
 
     $stmt = $conn->prepare($sql);
     if (!$stmt) throw new PDOException("Insert data error => {$conn->errorInfo()}");
@@ -45,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(":dncode", $dncode, PDO::PARAM_STR);
     $stmt->bindParam(":cuscode", $_POST['cuscode'], PDO::PARAM_STR);
     $stmt->bindParam(":dndate", $today, PDO::PARAM_STR);
+    $stmt->bindParam(":socode", $_POST['socode'], PDO::PARAM_STR);
 
     // if (!$stmt->execute()) {
     //     $error = $conn->errorInfo();
