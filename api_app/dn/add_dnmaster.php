@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $sql = "INSERT INTO dnmaster
-    (dncode,cuscode, dndate,socode, active_status, created_date)
+    (dncode,cuscode, dndate,socode, doc_status, created_date)
     VALUES (:dncode,:cuscode, :dndate,:socode, 'รอออกใบแจ้งหนี้', current_timestamp())";
 
     $stmt = $conn->prepare($sql);
