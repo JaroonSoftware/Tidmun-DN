@@ -36,13 +36,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             $sql = "
-        update items_barcode 
-        set
-        barcode_status = 'ขายแล้ว',
-        socode = :socode,
-        dncode = :dncode,
-        updated_date = CURRENT_TIMESTAMP()
-        where barcode_id = :barcode_id ";
+            update items_barcode 
+            set
+            barcode_status = 'ขายแล้ว',
+            socode = :socode,
+            dncode = :dncode,
+            updated_date = CURRENT_TIMESTAMP()
+            where barcode_id = :barcode_id ";
 
             $stmt = $conn->prepare($sql);
             if (!$stmt) throw new PDOException("Insert data error => {$conn->errorInfo()}");
@@ -63,6 +63,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 array_push($json_result['stname'], $stname);
                 array_push($json_result['unit_weight'], $unit_weight);
                 array_push($json_result['datetimelog'], date("Y-m-d"));
+
+                // $strSQL = "SELECT count(id) as count FROM `grbarcode` where barcode_status!='ออก barcode แล้ว' and grcode = '".$_POST['grcode']."' and stcode = '".$_POST['stcode']."' ";
+                // $stmt = $conn->prepare($strSQL);
+                // $stmt->execute();
+                // $res = $stmt->fetch(PDO::FETCH_ASSOC);
+                // extract($res, EXTR_OVERWRITE, "_");                
+                //     if($count==0)
+                //     {
+
+                //         $sql = "
+                //         update grmaster 
+                //         set
+                //         doc_status = 'ชั่งสินค้าครบแล้ว',
+                //         updated_date = CURRENT_TIMESTAMP()
+                //         where grcode = :grcode ";
+
+                //         $stmt = $conn->prepare($sql);
+                //         if (!$stmt) throw new PDOException("Insert data error => {$conn->errorInfo()}");
+
+                //         $stmt->bindValue(":grcode", $_POST['grcode'], PDO::PARAM_STR);
+
+                //         if (!$stmt->execute()) {
+                //             $error = $conn->errorInfo();
+                //             throw new PDOException("Insert data error => $error");
+                //             die;
+                //         }
+                //     }
 
                 http_response_code(200);
                 $response = ['status' => 1, 'message' => 'เพิ่มข้อมูลสำเร็จ', 'data' => $json_result];
