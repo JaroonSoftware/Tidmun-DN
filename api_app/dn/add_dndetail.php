@@ -35,6 +35,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 die;
             }
 
+            $sql = "update sodetail set delamount = delamount+1 where socode = :socode and stcode = :stcode ";
+
+            $stmt2 = $conn->prepare($sql);
+            if (!$stmt2) throw new PDOException("Insert data error => {$conn->errorInfo()}");
+
+            $stmt2->bindValue(":socode", $_POST['socode'], PDO::PARAM_STR);
+            $stmt2->bindValue(":stcode", $stcode, PDO::PARAM_STR);
+
+            if (!$stmt2->execute()) {
+                $error = $conn->errorInfo();
+                throw new PDOException("Insert data error => $error");
+                die;
+            }
+
+            $strSQL = "SELECT SUM(delamount-qty),SUM(IF(delamount-qty>=0, 0, 1)) as count FROM `sodetail` WHERE socode = '" . $_POST['socode'] . "' ";
+            $stmt = $conn->prepare($strSQL);
+            $stmt->execute();
+            $res = $stmt->fetch(PDO::FETCH_ASSOC);
+            extract($res, EXTR_OVERWRITE, "_");
+            if ($count == 0) {
+
+                $sql = "update somaster set doc_status = 'รอชำระเงิน' where socode = :socode ";
+
+                $stmt3 = $conn->prepare($sql);
+                if (!$stmt3) throw new PDOException("Insert data error => {$conn->errorInfo()}");
+
+                $stmt3->bindValue(":socode", $_POST['socode'], PDO::PARAM_STR);
+
+                if (!$stmt3->execute()) {
+                    $error = $conn->errorInfo();
+                    throw new PDOException("Insert data error => $error");
+                    die;
+                }
+            }
+
             $sql = "
             update items_barcode 
             set
@@ -51,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindValue(":socode", $_POST['socode'], PDO::PARAM_STR);
             $stmt->bindValue(":dncode", $_POST['dncode'], PDO::PARAM_STR);
 
+
             if ($stmt->execute()) {
                 $json_result = array(
                     "stcode" => array(),
@@ -63,33 +99,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 array_push($json_result['stname'], $stname);
                 array_push($json_result['unit_weight'], $unit_weight);
                 array_push($json_result['datetimelog'], date("Y-m-d"));
-
-                // $strSQL = "SELECT count(id) as count FROM `grbarcode` where barcode_status!='ออก barcode แล้ว' and grcode = '".$_POST['grcode']."' and stcode = '".$_POST['stcode']."' ";
-                // $stmt = $conn->prepare($strSQL);
-                // $stmt->execute();
-                // $res = $stmt->fetch(PDO::FETCH_ASSOC);
-                // extract($res, EXTR_OVERWRITE, "_");                
-                //     if($count==0)
-                //     {
-
-                //         $sql = "
-                //         update grmaster 
-                //         set
-                //         doc_status = 'ชั่งสินค้าครบแล้ว',
-                //         updated_date = CURRENT_TIMESTAMP()
-                //         where grcode = :grcode ";
-
-                //         $stmt = $conn->prepare($sql);
-                //         if (!$stmt) throw new PDOException("Insert data error => {$conn->errorInfo()}");
-
-                //         $stmt->bindValue(":grcode", $_POST['grcode'], PDO::PARAM_STR);
-
-                //         if (!$stmt->execute()) {
-                //             $error = $conn->errorInfo();
-                //             throw new PDOException("Insert data error => $error");
-                //             die;
-                //         }
-                //     }
 
                 http_response_code(200);
                 $response = ['status' => 1, 'message' => 'เพิ่มข้อมูลสำเร็จ', 'data' => $json_result];
