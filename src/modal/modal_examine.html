@@ -88,19 +88,29 @@
             <input class="form-control" id="grcode" readonly></input>
           </div>
           <div class="col-md-4">
+            <label>เลขที่ SO</label>
+            <input class="form-control" id="socode" readonly></input>
+          </div>
+          <div class="col-md-4">
+            <label>เลขที่ DN</label>
+            <input class="form-control" id="dncode" readonly></input>
+          </div>
+        </div>
+        <div class="row" style="padding-top: 2%;">
+          <div class="col-md-4">
             <label>รหัสสินค้า</label>
             <input class="form-control" id="stcode" readonly></input>
           </div>
           <div class="col-md-4">
-            <label>น้ำหนัก</label>
-            <input class="form-control" id="unit_weight" readonly></input>
-          </div>     
-        </div>
-        <div class="row" style="padding-top: 2%;">
-          <div class="col-md-4">
             <label>ชื่อสินค้า</label>
             <input class="form-control" id="stname" readonly></input>
           </div>
+          <div class="col-md-4">
+            <label>น้ำหนัก</label>
+            <input class="form-control" id="unit_weight" readonly></input>
+          </div>
+        </div>
+        <div class="row" style="padding-top: 2%;">
           <div class="col-md-4">
             <label>รหัสผู้ขาย</label>
             <input class="form-control" id="supcode" readonly></input>
@@ -108,6 +118,10 @@
           <div class="col-md-4">
             <label>ชื่อผู้ขาย</label>
             <input class="form-control" id="supname" readonly></input>
+          </div>
+          <div class="col-md-4">
+            <label>สถานะ</label>
+            <input class="form-control" id="barcode_status" readonly></input>
           </div>
         </div>
         <div class="row" style="padding-top: 2%;">
@@ -148,17 +162,19 @@
     if (event.key === "Enter") {
       // inputempcode.click(alert(tx_itempcode.value));
       event.preventDefault();
-        $.post("https://tidmunzbuffet.com/api_app/barcode/check_barcode.php", { barcode_id: tx_itempcode.value }, function (grdetail) {
-          let result = JSON.parse(grdetail)
-          $('#grcode').val(result.grcode)
-          $('#stcode').val(result.stcode)
-          $('#unit_weight').val(result.unit_weight)
-          $('#stname').val(result.stname)
-          $('#supcode').val(result.supcode)
-          $('#supname').val(result.supname)
-          $('#cuscode').val(result.cuscode)
-          $('#cusname').val(result.cusname)
-        })
+      $.post("https://tidmunzbuffet.com/api_app/barcode/check_barcode.php", { barcode_id: tx_itempcode.value }, function (grdetail) {
+        let result = JSON.parse(grdetail)
+        $('#grcode').val(result.grcode)
+        $('#stcode').val(result.stcode)
+        $('#unit_weight').val(result.unit_weight)
+        $('#stname').val(result.stname)
+        $('#supcode').val(result.supcode)
+        $('#supname').val(result.supname)
+        $('#cuscode').val(result.cuscode)
+        $('#cusname').val(result.cusname)
+        $('#barcode_status').val(result.barcode_status)
+        
+      })
       inputempcode.value = null;
 
     }

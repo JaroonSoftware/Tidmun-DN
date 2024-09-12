@@ -32,39 +32,14 @@ ipcRenderer.on("got-access-token", (event, accessToken) => {
     $('#txtresult').text('อินเตอร์เน็ตมีปัญหา เชื่อมต่อไม่ได้') 
   });
 
-
-
 });
 
-function PrintBarcode(data) {
-
-	const electron = require('electron')
-// Importing BrowserWindow from Main 
-const BrowserWindow = electron.remote.BrowserWindow;
-
-// var current = document.getElementById('current');
-var options = {
-	silent: false,
-	printBackground: true,
-	color: false,
-	margin: {
-		marginType: 'printableArea'
-	},
-	landscape: false,
-	pagesPerSheet: 1,
-	collate: false,
-	copies: 1,
-	header: 'Header of the Page',
-	footer: 'Footer of the Page'
-}
-
-	// alert('test')
-	let win = BrowserWindow.getFocusedWindow();
-	// let win = BrowserWindow.getAllWindows()[0]; 
-
-	win.webContents.print(options, (success, failureReason) => {
-		if (!success) console.log(failureReason);
-
-		console.log('Print Initiated');
-	});
-}
+ipcRenderer.on("submit-reset", (event, accessToken) => {
+	$('#btnStartScan').show()
+	$('#btnCreate').hide()
+	$('#dncode').val('')
+	$('#tx_barcode').attr("placeholder", "");
+	$('#tx_barcode').prop("disabled", true);
+	document.getElementById('txtresult').style.color = "#4DBE05";
+	$('#txtresult').text('สร้างใบส่งของสำเร็จ ' + accessToken + ' สำเร็จ')
+});
