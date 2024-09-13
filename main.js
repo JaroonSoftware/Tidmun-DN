@@ -11,7 +11,7 @@ function createWindow() {
     width: 1360,
     height: 1024,
     modal: true,
-    fullscreen: true,
+    // fullscreen: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: true,
@@ -26,6 +26,7 @@ function createWindow() {
       autoHideMenuBar: true,
       parent: mainWindow,
       height: 1000,
+      width: 1000,
       webPreferences: {
         nodeIntegration: true,
         contextIsolation: false,
@@ -53,6 +54,7 @@ function createWindow() {
   }
   function showLoginWindow2() {
     const child = new BrowserWindow({
+      icon: path.join(__dirname, "/assets/icons/win/icon.ico"),
       autoHideMenuBar: true,
       parent: mainWindow,
       height: 700,
@@ -132,6 +134,7 @@ function createWindow() {
   showLoginWindow();
   
   mainWindow.loadFile("src/index.html");
+  mainWindow.maximize();
   // mainWindow.setIcon("assets/icons/win/icon.ico");
 }
 
