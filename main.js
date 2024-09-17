@@ -11,7 +11,7 @@ function createWindow() {
     width: 1360,
     height: 1024,
     modal: true,
-    // fullscreen: true,
+    fullscreen: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: true,
