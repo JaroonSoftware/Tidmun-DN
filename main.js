@@ -128,6 +128,7 @@ function createWindow() {
   const electronLocalshortcut = require("electron-localshortcut");
 
   electronLocalshortcut.register(mainWindow, "Escape", () => {
+    app.quit();
     mainWindow.close();
   });
 
