@@ -27,6 +27,12 @@ ipcRenderer.on("got-access-token", (event, accessToken) => {
       $(tb).appendTo("#tbmain");
     }
 
+    $('#tx_barcode').attr("placeholder", "");
+    $('#tx_barcode').prop("disabled", true);
+    $("#btnStartScan").show();
+    $("#btnCreate").hide();
+    $('#dncode').val('')
+
   }).fail(function (error) {
 
     $('#txtresult').text('อินเตอร์เน็ตมีปัญหา เชื่อมต่อไม่ได้') 
@@ -34,7 +40,7 @@ ipcRenderer.on("got-access-token", (event, accessToken) => {
 
 });
 
-ipcRenderer.on("submit-reset", (event, accessToken) => {
+ipcRenderer.on("submit-dn", (event, accessToken) => {
 	$('#btnStartScan').show()
 	$('#btnCreate').hide()
 	$('#dncode').val('')

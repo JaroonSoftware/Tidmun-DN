@@ -25,8 +25,9 @@ function startScan() {
 		$("#tx_barcode").focus();
 		$("#btnStartScan").hide();
 		$("#btnCreate").show();
+		$('#tableDN tbody').empty();		
 
-		$.post("https://tidmunzbuffet.com/api_app/dn/add_dnmaster.php", { socode: $('#socode').val(), cuscode: $('#cuscode').val() }, function (response2) {
+		$.post("https://tidmunzbuffet.com/api_app/dn/add_dnmaster.php", { }, function (response2) {
 
 			let r2 = JSON.parse(response2)
 			$('#dncode').val(r2.dncode)
@@ -45,9 +46,19 @@ function startScan() {
 }
 
 function createDN() {
-
-	const ipc = require("electron").ipcRenderer;
-	ipc.send('createDN', $('#dncode').val());
+	
+	if($('#tableDN tbody tr').length!=0)
+	{
+		const ipc = require("electron").ipcRenderer;
+		ipc.send('createDN', $('#dncode').val());
+	}
+	else
+	{
+		Swal.fire({
+			title: "<strong>กรุณายิงBarcodeก่อน</strong>",
+			icon: "error",
+		});
+	}
 }
 
 var inputbarcode = document.getElementById("tx_barcode");
@@ -71,6 +82,25 @@ inputbarcode.addEventListener("keypress", function (event) {
 
 					document.getElementById('txtresult').style.color = "#4DBE05";
 					$('#txtresult').text('เพิ่มสินค้า ' + r2.data.stname + ' สำเร็จ')
+
+
+					$.post("https://tidmunzbuffet.com/api_app/so/getsup_sodetail.php", { socode : r2.data.stcode }, function (sodetail) {
+						// console.log(grdetail);
+						let result = JSON.parse(sodetail)
+						$('#tbmain tbody').empty();
+					
+						for (let i in result) {
+							let count = (parseInt(i)+1)
+						  tb = '';
+						  tb += '<tr id="' + (i + 1) + '"><td>' + count + '</td><td>' + result[i].stcode + '</td><td>' + result[i].stname + '</td><td>' + result[i].qty + '</td><td>' + result[i].delamount + '</td>';
+						  tb += '</tr>';
+						  $(tb).appendTo("#tbmain");
+						}
+					
+					  }).fail(function (error) {
+					
+						$('#txtresult').text('อินเตอร์เน็ตมีปัญหา เชื่อมต่อไม่ได้') 
+					  });
 				}
 				else
 				{

@@ -11,7 +11,7 @@ function createWindow() {
     width: 1360,
     height: 1024,
     modal: true,
-    fullscreen: true,
+    // fullscreen: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: true,
@@ -34,23 +34,7 @@ function createWindow() {
       },
     });
     // child.setIcon('assets/icons/win/icon.ico');
-    child.loadFile("src/modal/modal_product.html");
-  }
-  function showLoginWindow2() {
-    const child = new BrowserWindow({
-      icon: path.join(__dirname, "/assets/icons/win/icon.ico"),
-      autoHideMenuBar: true,
-      parent: mainWindow,
-      height: 700,
-      width: 1000,
-      webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false,
-        enableRemoteModule: true,
-      },
-    });
-    // child.setIcon('assets/icons/win/icon.ico');
-    child.loadFile("src/modal/modal_examine.html");
+    child.loadFile("src/modal/modal_saleorder.html");
   }
   function showLoginWindow2() {
     const child = new BrowserWindow({
@@ -88,6 +72,7 @@ function createWindow() {
 
   const createDN = new BrowserWindow({
     autoHideMenuBar: true,
+    icon: path.join(__dirname, "/assets/icons/win/icon.ico"),
     parent: mainWindow,
     height: 700,
     width: 1000,
@@ -98,10 +83,8 @@ function createWindow() {
       enableRemoteModule: true,
     },
   });
-  // child.setIcon('assets/icons/win/icon.ico');
   createDN.loadFile("src/modal/modal_delivery.html");
   
-  // editwindow.setIcon('assets/icons/win/icon.ico');
   createDN.on("close", (evt) => {
     evt.preventDefault(); // This will cancel the close
     createDN.hide();
@@ -115,7 +98,7 @@ function createWindow() {
 
   ipc.on("submitDN", (event, data) => {
     
-    mainWindow.webContents.send("submit-reset",data);
+    mainWindow.webContents.send("submit-dn",data);
   });
 
   ipc.on("message:loginShow", () => {
@@ -128,8 +111,9 @@ function createWindow() {
   const electronLocalshortcut = require("electron-localshortcut");
 
   electronLocalshortcut.register(mainWindow, "Escape", () => {
-    app.quit();
+    
     mainWindow.close();
+    app.quit();
   });
 
   showLoginWindow();
@@ -149,4 +133,11 @@ app.whenReady().then(() => {
 
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
+});
+
+app.on('will-quit', function () {
+  // This is a good place to add tests insuring the app is still
+  // responsive and all windows are closed.
+  // console.log("will-quit");
+  mainWindow = null;
 });
