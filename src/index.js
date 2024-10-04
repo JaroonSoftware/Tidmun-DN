@@ -72,7 +72,7 @@ inputbarcode.addEventListener("keypress", function (event) {
 			let tmp = sodata.find(x => x.stcode === result.stcode)
 
 			if (tmp != null) {
-				$.post("https://tidmunzbuffet.com/api_app/dn/add_dndetail.php", { socode: $('#socode').val(), dncode: $('#dncode').val(), cuscode: $('#cuscode').val(), barcode_id: inputvalue }, function (response2) {
+				$.post("https://tidmunzbuffet.com/api_app/dn/add_dndetail2.php", { socode: $('#socode').val(), dncode: $('#dncode').val(), cuscode: $('#cuscode').val(), barcode_id: inputvalue }, function (response2) {
 
 					let r2 = JSON.parse(response2)
 					// console.log(r2)
@@ -89,7 +89,7 @@ inputbarcode.addEventListener("keypress", function (event) {
 						$('#txtresult').text('เพิ่มสินค้า ' + r2.data.stname + ' สำเร็จ')
 
 
-						$.post("https://tidmunzbuffet.com/api_app/so/getsup_sodetail.php", { socode : r2.data.stcode }, function (sodetail) {
+						$.post("https://tidmunzbuffet.com/api_app/so/getsup_sodetail.php", { socode :  $('#socode').val() }, function (sodetail) {
 							// console.log(grdetail);
 							let result = JSON.parse(sodetail)
 							$('#tbmain tbody').empty();
