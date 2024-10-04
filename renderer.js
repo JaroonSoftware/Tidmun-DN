@@ -1,5 +1,7 @@
 const { ipcRenderer } = require("electron");
 
+var sodata;
+
 ipcRenderer.on("got-access-token", (event, accessToken) => {
 //   data = accessToken.split(",");
   let socode = accessToken;
@@ -19,10 +21,12 @@ ipcRenderer.on("got-access-token", (event, accessToken) => {
     let result = JSON.parse(sodetail)
     $('#tbmain tbody').empty();
 
+    sodata=result
+
     for (let i in result) {
 		let count = (parseInt(i)+1)
       tb = '';
-      tb += '<tr id="' + (i + 1) + '"><td>' + count + '</td><td>' + result[i].stcode + '</td><td>' + result[i].stname + '</td><td>' + result[i].qty + '</td><td>' + result[i].delamount + '</td>';
+      tb += '<tr id="' + (i + 1) + '"><td>' + count + '</td><td class="nr">' + result[i].stcode + '</td><td>' + result[i].stname + '</td><td>' + result[i].qty + '</td><td>' + result[i].delamount + '</td>';
       tb += '</tr>';
       $(tb).appendTo("#tbmain");
     }
