@@ -72,7 +72,7 @@ inputbarcode.addEventListener("keypress", function (event) {
 			let tmp = sodata.find(x => x.stcode === result.stcode)
 
 			if (tmp != null) {
-				$.post(REACT_APP_BACKEND_URL+"/api_app/dn/add_dndetail2.php", { socode: $('#socode').val(), dncode: $('#dncode').val(), cuscode: $('#cuscode').val(), barcode_id: inputvalue }, function (response2) {
+				$.post(REACT_APP_BACKEND_URL+"/api_app/dn/add_dndetail.php", { socode: $('#socode').val(), dncode: $('#dncode').val(), cuscode: $('#cuscode').val(), barcode_id: inputvalue }, function (response2) {
 
 					let r2 = JSON.parse(response2)
 					// console.log(r2)
