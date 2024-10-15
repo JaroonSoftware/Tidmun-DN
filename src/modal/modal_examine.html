@@ -74,6 +74,8 @@
 
     }
   </style>
+  <!-- //get URL -->
+  <script type="text/javascript" src="./../../env.development.js"></script>
 </head>
 
 <body>
@@ -162,7 +164,7 @@
     if (event.key === "Enter") {
       // inputempcode.click(alert(tx_itempcode.value));
       event.preventDefault();
-      $.post("https://tidmunzbuffet.com/api_app/barcode/check_barcode.php", { barcode_id: tx_itempcode.value }, function (grdetail) {
+      $.post(REACT_APP_BACKEND_URL+"/api_app/barcode/check_barcode.php", { barcode_id: tx_itempcode.value }, function (grdetail) {
         let result = JSON.parse(grdetail)
         $('#grcode').val(result.grcode)
         $('#stcode').val(result.stcode)

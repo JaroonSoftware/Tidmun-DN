@@ -74,6 +74,8 @@
 
         }
     </style>
+    <!-- //get URL -->
+  <script type="text/javascript" src="./../../env.development.js"></script>
 </head>
 
 <body>
@@ -141,7 +143,7 @@
         // console.log($('#searchform').serialize())
         $('#getso tbody').empty();
 
-        $.post("https://tidmunzbuffet.com/api_app/so/get_so.php", $('#searchform').serialize(), function (r) {
+        $.post(REACT_APP_BACKEND_URL+"/api_app/so/get_so.php", $('#searchform').serialize(), function (r) {
             let result = JSON.parse(r)
 
             for (let i in result) {

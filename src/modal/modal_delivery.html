@@ -85,6 +85,8 @@
             background-attachment: fixed; */
       }
     </style>
+    <!-- //get URL -->
+  <script type="text/javascript" src="./../../env.development.js"></script>
   </head>
 
   <body>
@@ -196,7 +198,7 @@
     $("#dncode").val(accessToken);
 
     $.post(
-        "https://tidmunzbuffet.com/api_app/dn/get_customerdetail.php",
+        REACT_APP_BACKEND_URL+"/api_app/dn/get_customerdetail.php",
         { dncode: accessToken },
         function (cusdetail) {
           let result = JSON.parse(cusdetail);

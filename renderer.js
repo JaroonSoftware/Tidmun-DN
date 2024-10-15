@@ -6,7 +6,7 @@ ipcRenderer.on("got-access-token", (event, accessToken) => {
 //   data = accessToken.split(",");
   let socode = accessToken;
 
-  $.post("https://tidmunzbuffet.com/api_app/so/getsup_so.php", { socode : socode }, function (sohead) {
+  $.post(REACT_APP_BACKEND_URL+"/api_app/so/getsup_so.php", { socode : socode }, function (sohead) {
 	// console.log(grhead);
     let result = JSON.parse(sohead)
 	$('#socode').val(socode)
@@ -16,7 +16,7 @@ ipcRenderer.on("got-access-token", (event, accessToken) => {
   
   });
 
-  $.post("https://tidmunzbuffet.com/api_app/so/getsup_sodetail.php", { socode : socode }, function (sodetail) {
+  $.post(REACT_APP_BACKEND_URL+"/api_app/so/getsup_sodetail.php", { socode : socode }, function (sodetail) {
 	// console.log(grdetail);
     let result = JSON.parse(sodetail)
     $('#tbmain tbody').empty();

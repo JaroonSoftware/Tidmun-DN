@@ -27,7 +27,7 @@ function startScan() {
 		$("#btnCreate").show();
 		$('#tableDN tbody').empty();
 
-		$.post("https://tidmunzbuffet.com/api_app/dn/get_dncode.php", {}, function (response2) {
+		$.post(REACT_APP_BACKEND_URL+"/api_app/dn/get_dncode.php", {}, function (response2) {
 
 			let r2 = JSON.parse(response2)
 			$('#dncode').val(r2.dncode)
@@ -66,13 +66,13 @@ inputbarcode.addEventListener("keypress", function (event) {
 
 		let inputvalue = inputbarcode.value
 		let result
-		$.post("https://tidmunzbuffet.com/api_app/barcode/check_barcode.php", { barcode_id: inputvalue }, function (grdetail) {
+		$.post(REACT_APP_BACKEND_URL+"/api_app/barcode/check_barcode.php", { barcode_id: inputvalue }, function (grdetail) {
 			result = JSON.parse(grdetail)
 			
 			let tmp = sodata.find(x => x.stcode === result.stcode)
 
 			if (tmp != null) {
-				$.post("https://tidmunzbuffet.com/api_app/dn/add_dndetail2.php", { socode: $('#socode').val(), dncode: $('#dncode').val(), cuscode: $('#cuscode').val(), barcode_id: inputvalue }, function (response2) {
+				$.post(REACT_APP_BACKEND_URL+"/api_app/dn/add_dndetail2.php", { socode: $('#socode').val(), dncode: $('#dncode').val(), cuscode: $('#cuscode').val(), barcode_id: inputvalue }, function (response2) {
 
 					let r2 = JSON.parse(response2)
 					// console.log(r2)
@@ -89,7 +89,7 @@ inputbarcode.addEventListener("keypress", function (event) {
 						$('#txtresult').text('เพิ่มสินค้า ' + r2.data.stname + ' สำเร็จ')
 
 
-						$.post("https://tidmunzbuffet.com/api_app/so/getsup_sodetail.php", { socode :  $('#socode').val() }, function (sodetail) {
+						$.post(REACT_APP_BACKEND_URL+"/api_app/so/getsup_sodetail.php", { socode :  $('#socode').val() }, function (sodetail) {
 							// console.log(grdetail);
 							let result = JSON.parse(sodetail)
 							$('#tbmain tbody').empty();
