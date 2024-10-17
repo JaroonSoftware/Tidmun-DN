@@ -94,13 +94,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 die;
             }
 
-            $sql = "update sodetail set delamount = delamount+1 where socode = :socode and stcode = :stcode ";
+            $sql = "update sodetail set delamount = delamount+:unit_weight where socode = :socode and stcode = :stcode ";
 
             $stmt2 = $conn->prepare($sql);
             if (!$stmt2) throw new PDOException("Insert data error => {$conn->errorInfo()}");
 
             $stmt2->bindValue(":socode", $_POST['socode'], PDO::PARAM_STR);
             $stmt2->bindValue(":stcode", $stcode, PDO::PARAM_STR);
+            $stmt2->bindParam(":unit_weight", $unit_weight, PDO::PARAM_STR);
 
             if (!$stmt2->execute()) {
                 $error = $conn->errorInfo();

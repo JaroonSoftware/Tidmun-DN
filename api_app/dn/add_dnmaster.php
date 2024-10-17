@@ -27,9 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     $sql = "update options set dncode = dncode + 1 where year = :y and month = :m";
-    $stmt = $conn->prepare($sql);
+    $stmt2 = $conn->prepare($sql);
 
-    if (!$stmt->execute(['y' => $year, 'm' => $m])) {
+    if (!$stmt2->execute(['y' => $year, 'm' => $m])) {
         $error = $conn->errorInfo();
         http_response_code(401);
         throw new PDOException("Update code error => $error");

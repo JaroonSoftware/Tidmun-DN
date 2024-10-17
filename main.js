@@ -93,7 +93,6 @@ function createWindow() {
   ipc.on("createDN", (event, data) => {
     accessToken = data;
     createDN.show();
-    createDN.webContents.send("send-token", accessToken);
   });
 
   ipc.on("submitDN", (event, data) => {

@@ -24,9 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $number = intval($result["code"]);
 
     $dncode = $prefix . sprintf("%04s", ($number));
+    
     if ($stmt->execute()) {
         http_response_code(200);
-        $response = ['status' => 1, 'message' => 'เพิ่มข้อมูลสำเร็จ', 'dncode' => $dncode];
+        $response = ['status' => 1, 'message' => 'ดึงข้อมูลสำเร็จ', 'dncode' => $dncode];
     } else {
         $response = ['status' => 0, 'message' => 'Error! ติดต่อโปรแกรมเมอร์'];
     }
